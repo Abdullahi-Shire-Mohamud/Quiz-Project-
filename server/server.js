@@ -5,10 +5,12 @@ const pool = require("./db");
 
 const app = express();
 const PORT = 3000;
-
-
+//for routing auth.js to server auth.js(mount)
+const authRoutes = require('./routes/authRoutes');
 // Middleware 
 app.use(express.json());
+
+app.use('/auth',authRoutes);
 
 // Serve frontend files from the public folder
 app.use(express.static(path.join(__dirname, "..", "public")));
