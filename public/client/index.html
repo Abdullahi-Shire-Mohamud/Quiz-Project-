@@ -54,32 +54,55 @@
         <section class="hero-section">
             <p class="hero-label">Test your knowledge ✨</p>
 
-        <h1>Available Quizzes</h1>
+            <h1>Available Quizzes</h1>
 
-        <p class="hero-description">
-            Choose a quiz and challenge yourself!
-        </p>
+            <p class="hero-description">
+                Choose a quiz and challenge yourself!
+            </p>
         </section>
 
         <section class="browse-section" aria-labelledby="browse-title">
 
             <div class="section-heading">
                 <h2 id="browse-title">Browse Quizzes</h2>
-            
+
                 <p>
                     Explore the quizzes currently available.
                 </p>
             </div>
-            
-            <div id="quiz-list" class="quiz-grid" aria-live="polite">
-                <!-- Quiz cards will later be created here with JavaScript -->
-            </div>
+            <section class="browse-section" aria-labelledby="browse-title">
+
+                <div class="section-heading">
+                    <h2 id="browse-title">Browse Quizzes</h2>
+
+                    <p>
+                        Explore the quizzes currently available.
+                    </p>
+                </div>
+
+                <div class="search-container">
+
+                    <label for="quiz-search">
+                        Search quizzes
+                    </label>
+
+                    <input type="search" id="quiz-search" placeholder="Search by quiz name..." autocomplete="off">
+
+                    <p id="search-status" aria-live="polite"></p>
+
+                </div>
+
+                <div id="quiz-list" class="quiz-grid" aria-live="polite">
+                    <!-- Quiz cards will later be created here with JavaScript -->
+                </div>
+
         </section>
 
     </main>
 
 
     <script src="../js/start.js"></script>
+    <script src="../js/quizzes.js"></script>
 
 </body>
 
