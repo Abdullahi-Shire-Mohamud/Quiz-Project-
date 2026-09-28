@@ -1,32 +1,39 @@
 //Here username and password are saved as variables, these variables
 //are sent for authentication and then send user to index.html
-const login = document.querySelector(".button");//make the tag login-button
-async function login() {
-//const inputUsername = document.querySelector("#username").value; // Make the tag username
-//const inputPassword = document.querySelector("#password").value; // make the tag password
-const inputUsername = "user";
-const inputPassword = "password";
-    const response = await fetch("/auth/login",{
-        method: "POST",
-        headers : {"content-Type": "application/json"},
-        body : JSON.stringify({inputUsername,inputPassword})
-        
-    })
-    const validuser = await response.json();
-    if(validuser.success){
-    window.location.href = "index.html";
-}
-else {
-    alert("Login failed");
-}
-}
-login.addEventlistener("Login", (e) =>{
-    e.preventDefault();
-    login();
+const loginform = document.querySelector("#login-form");//make the tag login-button
+loginform.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const username = document.querySelector("#username").value;
+    const password = document.querySelector("#password").value;
+
+    const messageElement = document.querySelector("#login-message");
+
+    try {
+        const response = await fetch("/api/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                username,
+                password
+            })
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+            window.location.href = "index.html";
+        } else {
+            messageElement.textContent =
+                data.message || "Login failed.";
+        }
+
+    } catch (error) {
+        console.error("Login error:", error);
+
+        messageElement.textContent =
+            "Could not connect to the server.";
+    }
 });
-
-
-
-
-
-

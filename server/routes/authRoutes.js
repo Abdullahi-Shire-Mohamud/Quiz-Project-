@@ -1,11 +1,18 @@
-const express = require('express');//connects  server.js to server/auth.js
-const auth = require('../auth');
+const express = require("express");
 
 const router = express.Router();
 
-router.post('/login', auth.login);
-//router.post('/logout', auth.logout); could make it so u can log in and it
-//stays logged in until you log out regardless if u shut down the website or not
+// Login route
+router.post("/login", async (req, res) => {
+    const { username, password } = req.body;
+
+    console.log("Login attempt:", username);
+
+    // Authentication will be connected to the database later.
+    res.status(501).json({
+        success: false,
+        message: "Login authentication is not implemented yet."
+    });
+});
 
 module.exports = router;
-module.exports = {login};

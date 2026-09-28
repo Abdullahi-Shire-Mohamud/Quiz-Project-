@@ -3,17 +3,20 @@ const express = require("express");
 const path = require("path");
 const pool = require("./db");
 
+//Routes
+const authRoutes = require("./routes/authRoutes");
+
 const app = express();
 const PORT = 3000;
 //for routing auth.js to server auth.js(mount)
-const authRoutes = require('./routes/authRoutes');
+
 // Middleware 
 app.use(express.json());
 
-app.use('/auth',authRoutes);
-
 // Serve frontend files from the public folder
 app.use(express.static(path.join(__dirname, "..", "public")));
+
+app.use("/api", authRoutes);
 
 app.get("/welcome", (req, res) => {
     res.send("Welcome to the REST API!");
