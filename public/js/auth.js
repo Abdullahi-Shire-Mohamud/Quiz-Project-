@@ -30,14 +30,13 @@ loginform.addEventListener("submit", async (event) => {
             })
         });
 
-
         const data = await response.json();
 
 
         if (response.ok && data.success) {
-
-            console.log("Logged in:", data.user);
-
+            localStorage.setItem("username", data.user.username);
+            localStorage.setItem("role", data.user.role)
+            console.log("Logged in:", data);
             window.location.href = "index.html";
 
         } else {
