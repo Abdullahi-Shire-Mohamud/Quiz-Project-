@@ -2,107 +2,399 @@
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     margin: 0;
     min-height: 100vh;
+
     font-family: "Poppins", sans-serif;
+
     color: #f7f7ff;
-    background: linear-gradient(135deg, #171a3d, #25285f, #35327a);
+
+    background:
+        linear-gradient(
+            135deg,
+            #171a3d,
+            #25285f,
+            #35327a
+        );
 }
+
+
+/* ------------------------------
+   LINKS
+------------------------------ */
+
+a {
+    color: inherit;
+}
+
+
+/* ------------------------------
+   NAVIGATION
+------------------------------ */
 
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    gap: 1rem;
+
     padding: 1.2rem 2rem;
 
     background: rgba(20, 22, 58, 0.72);
+
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+
+/* QuizHub logo */
+
 .logo {
     font-family: "Fredoka", sans-serif;
+
     font-size: 1.8rem;
     font-weight: 700;
+
     color: #ffffff;
+
     text-decoration: none;
 }
+
+
+/* Middle navigation links */
 
 .nav-links {
     display: flex;
+    align-items: center;
+
     gap: 1.5rem;
-    list-style: none;
+
     margin: 0;
     padding: 0;
+
+    list-style: none;
 }
 
 .nav-links a {
-    color: #d9dcff;
     text-decoration: none;
+
+    color: #d9dcff;
+
     font-weight: 500;
-    transition: 0.2s;
+
+    transition: color 0.2s ease;
 }
 
 .nav-links a:hover {
     color: #ffffff;
 }
 
+
+/* Login / Register */
+
 .nav-auth {
     display: flex;
+
     gap: 0.8rem;
 }
 
 .nav-auth a {
     padding: 0.65rem 1rem;
+
     border-radius: 12px;
+
     text-decoration: none;
+
     font-weight: 600;
+
+    transition: 0.2s ease;
 }
+
+
+/* Login button */
 
 .nav-auth a:first-child {
     color: #ffffff;
+
     border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
-.nav-auth a:last-child {
-    color: white;
-    background: linear-gradient(135deg, #7c5cff, #d45cc7);
+.nav-auth a:first-child:hover {
+    background: rgba(255, 255, 255, 0.08);
 }
 
-main {
+
+/* Register button */
+
+.nav-auth a:last-child {
+    color: #ffffff;
+
+    background: linear-gradient(
+        135deg,
+        #7c5cff,
+        #d45cc7
+    );
+}
+
+.nav-auth a:last-child:hover {
+    transform: translateY(-2px);
+}
+
+
+/* ------------------------------
+   MAIN PAGE
+------------------------------ */
+
+.home-page {
+    width: 100%;
     max-width: 1100px;
+
     margin: 0 auto;
+
     padding: 4rem 2rem;
 }
 
-main h1 {
-    margin: 0;
-    font-family: "Fredoka", sans-serif;
-    font-size: 3rem;
+
+/* ------------------------------
+   HERO SECTION
+------------------------------ */
+
+.hero-section {
+    margin-bottom: 3rem;
 }
 
-#server-status {
-    margin-top: 1rem;
+.hero-label {
+    margin: 0 0 0.5rem;
+
+    font-family: "Fredoka", sans-serif;
+
+    font-size: 1rem;
+    font-weight: 600;
+
+    color: #c5b8ff;
+}
+
+.hero-section h1 {
+    margin: 0;
+
+    font-family: "Fredoka", sans-serif;
+
+    font-size: 3rem;
+    font-weight: 700;
+
+    color: #ffffff;
+}
+
+.hero-description {
+    max-width: 500px;
+
+    margin-top: 0.75rem;
+    margin-bottom: 0;
+
+    color: #c9cfff;
+
+    line-height: 1.6;
+}
+
+
+/* ------------------------------
+   BROWSE QUIZZES SECTION
+------------------------------ */
+
+.browse-section {
+    padding: 2rem;
+
+    background: rgba(255, 255, 255, 0.06);
+
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    border-radius: 20px;
+}
+
+
+/* Browse heading */
+
+.section-heading h2 {
+    margin: 0;
+
+    font-family: "Fredoka", sans-serif;
+
+    font-size: 1.8rem;
+    font-weight: 600;
+
+    color: #ffffff;
+}
+
+.section-heading p {
+    margin-top: 0.4rem;
+    margin-bottom: 0;
+
     color: #c9cfff;
 }
 
-@media (max-width: 750px) {
+
+/* ------------------------------
+   SEARCH
+------------------------------ */
+
+.search-container {
+    width: 100%;
+    max-width: 500px;
+
+    margin-top: 1.5rem;
+}
+
+.search-container label {
+    display: block;
+
+    margin-bottom: 0.5rem;
+
+    font-size: 0.95rem;
+    font-weight: 500;
+
+    color: #e5e7ff;
+}
+
+.search-container input {
+    width: 100%;
+
+    padding: 0.9rem 1rem;
+
+    font-family: "Poppins", sans-serif;
+    font-size: 1rem;
+
+    color: #ffffff;
+
+    background: rgba(255, 255, 255, 0.08);
+
+    border: 1px solid rgba(255, 255, 255, 0.15);
+
+    border-radius: 12px;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+.search-container input::placeholder {
+    color: #adb3d8;
+}
+
+.search-container input:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.search-container input:focus {
+    border-color: #9b87ff;
+
+    background: rgba(255, 255, 255, 0.12);
+
+    box-shadow:
+        0 0 0 3px rgba(155, 135, 255, 0.2);
+}
+
+
+/* Search status */
+
+#search-status {
+    min-height: 1.5rem;
+
+    margin-top: 0.6rem;
+    margin-bottom: 0;
+
+    font-size: 0.9rem;
+
+    color: #c9cfff;
+}
+
+
+/* ------------------------------
+   QUIZ GRID
+------------------------------ */
+
+.quiz-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 1rem;
+
+    margin-top: 1.5rem;
+
+    min-height: 100px;
+}
+
+
+/* ------------------------------
+   RESPONSIVE DESIGN
+------------------------------ */
+
+@media (max-width: 800px) {
+
     .navbar {
         flex-direction: column;
+
         align-items: flex-start;
-        gap: 1rem;
     }
 
-    .nav-links,
+    .nav-links {
+        flex-wrap: wrap;
+    }
+
     .nav-auth {
         flex-wrap: wrap;
     }
 
-    main {
+    .home-page {
+        padding: 2.5rem 1.5rem;
+    }
+
+    .hero-section h1 {
+        font-size: 2.5rem;
+    }
+
+    .quiz-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+@media (max-width: 500px) {
+
+    .navbar {
+        padding: 1rem;
+    }
+
+    .nav-links {
+        gap: 1rem;
+    }
+
+    .home-page {
         padding: 2rem 1rem;
     }
 
-    main h1 {
-        font-size: 2.2rem;
+    .hero-section h1 {
+        font-size: 2.1rem;
+    }
+
+    .browse-section {
+        padding: 1.4rem;
+    }
+
+    .nav-auth {
+        width: 100%;
+    }
+
+    .nav-auth a {
+        text-align: center;
     }
 }
