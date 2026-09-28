@@ -35,14 +35,17 @@
                     <a href="results.html">My Results</a>
                 </li>
 
+                <!-- Only visible for admin users -->
                 <li id="admin-nav-item" hidden>
                     <a href="admin.html">Admin Dashboard</a>
                 </li>
             </ul>
 
-            <div class="nav-auth">
-                <a href="login.html">Login</a>
-                <a href="register.html">Register</a>
+            <!-- Only visible when a user is logged in -->
+            <div class="nav-user" id="user-nav" hidden>
+                <button id="logout-button" type="button">
+                    Logout
+                </button>
             </div>
 
         </nav>
@@ -50,16 +53,51 @@
 
 
     <main class="home-page">
+        <!--
+        This section is shown when the visitor is NOT logged in.
+        The quiz content stays hidden until login.
+    -->
+        <section id="login-required" class="login-required" hidden>
 
-        <section class="hero-section">
-            <p class="hero-label">Test your knowledge ✨</p>
+            <h1>Welcome to QuizHub 👋</h1>
 
-            <h1>Available Quizzes</h1>
-
-            <p class="hero-description">
-                Choose a quiz and challenge yourself!
+            <p>
+                Please log in or create an account to view and play quizzes.
             </p>
+
+            <!-- Login and Register options for visitors -->
+            <div class="guest-actions" id="guest-nav">
+
+                <a class="login-button" href="login.html">
+                    Login
+                </a>
+
+                <a class="register-button" href="register.html">
+                    Register
+                </a>
+
+            </div>
+
         </section>
+        <!--
+        Main quiz content.
+        Hidden by default and shown by app.js
+        after a logged-in user is found.
+    -->
+        <div id="quiz-content" hidden>
+
+            <section class="hero-section">
+                <p class="hero-label">
+                    Test your knowledge,
+                    <span id="usernameDisplay"></span> ✨
+                </p>
+
+                <h1>Available Quizzes</h1>
+
+                <p class="hero-description">
+                    Choose a quiz and challenge yourself!
+                </p>
+            </section>
 
             <section class="browse-section" aria-labelledby="browse-title">
 
@@ -78,7 +116,10 @@
                     </label>
 
                     <input type="search" id="quiz-search" placeholder="Search by quiz name..." autocomplete="off">
-
+                    <!--
+                    JavaScript can update this text when
+                    the user searches for something.
+                -->
                     <p id="search-status" aria-live="polite"></p>
 
                 </div>
@@ -87,12 +128,12 @@
                     <!-- Quiz cards will later be created here with JavaScript -->
                 </div>
 
-        </section>
+            </section>
 
     </main>
 
 
-    <script src="../js/start.js"></script>
+    <script src="../js/app.js"></script> // Load app.js first to handle user authentication and navigation
     <script src="../js/quizzes.js"></script>
 
 </body>

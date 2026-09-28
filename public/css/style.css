@@ -115,33 +115,40 @@ a {
     transition: 0.2s ease;
 }
 
+/* Logged-in area */
 
-/* Login button */
+.nav-user {
+    display: flex;
+    align-items: center;
 
-.nav-auth a:first-child {
-    color: #ffffff;
-
-    border: 1px solid rgba(255, 255, 255, 0.18);
+    gap: 1rem;
 }
 
-.nav-auth a:first-child:hover {
+
+/* Logout button */
+
+#logout-button {
+    padding: 0.65rem 1rem;
+
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+
+    color: white;
+
     background: rgba(255, 255, 255, 0.08);
+
+    border: 1px solid rgba(255, 255, 255, 0.2);
+
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    transition: 0.2s;
 }
 
+#logout-button:hover {
+    background: rgba(255, 255, 255, 0.14);
 
-/* Register button */
-
-.nav-auth a:last-child {
-    color: #ffffff;
-
-    background: linear-gradient(
-        135deg,
-        #7c5cff,
-        #d45cc7
-    );
-}
-
-.nav-auth a:last-child:hover {
     transform: translateY(-2px);
 }
 
@@ -158,6 +165,96 @@ a {
 
     padding: 4rem 2rem;
 }
+
+/* ------------------------------
+    LOGIN / REGISTER REQUIRED
+------------------------------ */
+
+.login-required {
+    min-height: 420px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+}
+
+.login-required h1 {
+    margin: 0;
+
+    font-family: "Fredoka", sans-serif;
+    font-size: 2.8rem;
+
+    color: white;
+}
+
+.login-required p {
+    margin-top: 1rem;
+    margin-bottom: 1.8rem;
+
+    color: #c9cfff;
+
+    font-size: 1.05rem;
+}
+
+
+/* Login + Register buttons */
+
+.guest-actions {
+    display: flex;
+    justify-content: center;
+
+    gap: 1rem;
+}
+
+.guest-actions a {
+    padding: 0.75rem 1.4rem;
+
+    border-radius: 12px;
+
+    text-decoration: none;
+
+    font-weight: 600;
+
+    transition: 0.2s;
+}
+
+
+/* Login button */
+
+.login-button {
+    color: white;
+
+    background: rgba(255, 255, 255, 0.05);
+
+    border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.login-button:hover {
+    background: rgba(255, 255, 255, 0.1);
+
+    transform: translateY(-2px);
+}
+
+
+/* Register button */
+
+.register-button {
+    color: white;
+
+    background: linear-gradient(
+        135deg,
+        #7c5cff,
+        #d45cc7
+    );
+}
+
+.register-button:hover {
+    transform: translateY(-2px);
+}
+
 
 
 /* ------------------------------
@@ -178,6 +275,15 @@ a {
 
     color: #c5b8ff;
 }
+
+/* Username added by app.js */
+
+#usernameDisplay {
+    color: white;
+
+    font-weight: 700;
+}
+
 
 .hero-section h1 {
     margin: 0;
@@ -450,27 +556,29 @@ a {
         padding: 1rem;
     }
 
-    .nav-links {
-        gap: 1rem;
-    }
-
     .home-page {
         padding: 2rem 1rem;
     }
 
     .hero-section h1 {
-        font-size: 2.1rem;
+        font-size: 2.2rem;
+    }
+
+    .login-required h1 {
+        font-size: 2rem;
     }
 
     .browse-section {
         padding: 1.4rem;
     }
 
-    .nav-auth {
+    .guest-actions {
+        flex-direction: column;
+
         width: 100%;
     }
 
-    .nav-auth a {
+    .guest-actions a {
         text-align: center;
     }
 }
