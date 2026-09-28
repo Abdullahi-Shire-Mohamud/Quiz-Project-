@@ -1,36 +1,59 @@
-// Server for the Quiz Project
+// Quiz Project Server
+
 const express = require("express");
 const path = require("path");
 const pool = require("./db");
 
-//Routes
 const authRoutes = require("./routes/authRoutes");
 
 const app = express();
 const PORT = 3000;
-//for routing auth.js to server auth.js(mount)
 
-// Middleware 
+// -------------------------------------
+// Middleware
+// -------------------------------------
+
+// Allows the server to read JSON sent from the frontend
 app.use(express.json());
 
-// Serve frontend files from the public folder
-app.use(express.static(path.join(__dirname, "..", "public")));
+// Makes files inside /public available in the browser
+app.use(
+    express.static(
+        path.join(__dirname, "..", "public")
+    )
+);
 
+
+// -------------------------------------
+// API Routes
+// -------------------------------------
+
+// Authentication routes
+// Example:
+// POST /api/login
 app.use("/api", authRoutes);
 
+
+// -------------------------------------
+// Test Routes
+// -------------------------------------
+
+// Simple welcome route
 app.get("/welcome", (req, res) => {
     res.send("Welcome to the REST API!");
 });
-//server side code for the quiz project - express server setup - 
-// api endpoints - middleware etc//
 
-app.get("/api/test", (req, res) => { // Test endpoint to check if the API is working
+
+// Test if Express server is working
+app.get("/api/test", (req, res) => {
     res.json({
         message: "Quiz API is working"
     });
 });
 
-app.get("/api/db-test", async (req, res) => { // Test endpoint to check if the database connection is working
+
+// Test if PostgreSQL connection is working
+app.get("/api/db-test", async (req, res) => {
     try {
         const result = await pool.query("SELECT NOW()");
 
@@ -38,6 +61,7 @@ app.get("/api/db-test", async (req, res) => { // Test endpoint to check if the d
             message: "Database connection is working",
             time: result.rows[0].now
         });
+
     } catch (error) {
         console.error("Database error:", error);
 
@@ -47,8 +71,9 @@ app.get("/api/db-test", async (req, res) => { // Test endpoint to check if the d
     }
 });
 
+
 // Start the server
 app.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}`);
+    console.log(`Server running at http://localhost:${PORT}/client/index.html`);
 });
 //test//
