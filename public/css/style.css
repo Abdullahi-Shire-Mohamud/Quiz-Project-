@@ -2,6 +2,11 @@
     box-sizing: border-box;
 }
 
+/* Makes sure JavaScript can correctly hide elements */
+[hidden] {
+    display: none !important;
+}
+
 html {
     scroll-behavior: smooth;
 }
@@ -11,16 +16,14 @@ body {
     min-height: 100vh;
 
     font-family: "Poppins", sans-serif;
-
     color: #f7f7ff;
 
-    background:
-        linear-gradient(
-            135deg,
-            #171a3d,
-            #25285f,
-            #35327a
-        );
+    background: linear-gradient(
+        135deg,
+        #171a3d,
+        #25285f,
+        #35327a
+    );
 }
 
 

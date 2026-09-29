@@ -2,7 +2,6 @@ const express = require("express");
 const fs = require("fs");
 const path = require("path");
 
-const auth = require('../auth');
 const router = express.Router();
 
 const usersFile = path.join(
@@ -12,10 +11,12 @@ const usersFile = path.join(
     "database",
     "user.json"
 );
-// Login route
-router.post("/login", async (req, res) => {
-    const { username, password } = req.body;
 
+// Login route (POST /api/login)
+router.post("/login", async (req, res) => {
+    const { username, password } = req.body;  // Here we get username and password sent by auth.js
+
+    // Make sure both fields were provided
     if (!username || !password) {
         return res.status(400).json({
             success: false,
@@ -24,6 +25,7 @@ router.post("/login", async (req, res) => {
     }
 
     try {
+        // Read temporary users from user.json
         const fileData = fs.readFileSync(usersFile, "utf8");
         const users = JSON.parse(fileData);
 
@@ -39,7 +41,8 @@ router.post("/login", async (req, res) => {
                 message: "Invalid username or password."
             });
         }
-
+        // Successful login
+        // Do NOT send the password back to the frontend
         return res.json({
             success: true,
             message: "Login successful.",
@@ -52,8 +55,7 @@ router.post("/login", async (req, res) => {
 
     } catch (error) {
         console.error("Login error:", error);
-    console.log("Login attempt:", username);
-    router.post('login/', auth.login);
+        console.log("Login attempt:", username);
 
         return res.status(500).json({
             success: false,

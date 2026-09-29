@@ -19,10 +19,8 @@ const guestNav = document.querySelector("#guest-nav");
 // Username and Logout section shown to logged-in users
 const userNav = document.querySelector("#user-nav");
 
-
-// Displays the logged-in username beside "Test your knowledge"
-const usernameDisplay =
-    document.querySelector("#usernameDisplay");
+// Displays username beside "Test your knowledge" 
+const usernameDisplay = document.querySelector("#usernameDisplay");
 
 // Logout button
 const logoutButton = document.querySelector("#logout-button");
@@ -36,65 +34,58 @@ const loginRequired = document.querySelector("#login-required");
 // Admin Dashboard navigation link
 const adminNavItem = document.querySelector("#admin-nav-item");
 
+// Navigation links only available to logged-in users
+const homeNavItem = document.querySelector("#home-nav-item");
+const resultsNavItem = document.querySelector("#results-nav-item");
+
 // ------------------------------
 // HERE WE CHECK LOGIN STATE
 // ------------------------------
 
 /*
-    Try to get the logged-in user from sessionStorage.
-
-    sessionStorage stores values as strings,
-    so the user was previously stored using JSON.stringify().
+    auth.js will save the following values in localStorage
+    after a successful login.
 */
-const storedUser = sessionStorage.getItem("currentUser");
-
-// Start with no logged-in user
-let currentUser = null;
-
-/*
-    If currentUser exists in sessionStorage,
-    convert the JSON string back into a JavaScript object.
-*/
-if (storedUser) {
-    currentUser = JSON.parse(storedUser);
-}
-
+const username = localStorage.getItem("username");
+const role = localStorage.getItem("role");
 
 
 // ------------------------------
 // USER IS LOGGED IN
 // ------------------------------
 
-if (currentUser) {
+if (username) {
 
     // User is logged in so we hide the Login/Register links and show the username + Logout section
     guestNav.hidden = true;
     userNav.hidden = false;
-
-    quizContent.hidden = false;
     loginRequired.hidden = true;
+    quizContent.hidden = false;
+
+    // Logged-in users can access Home and My Results
+    homeNavItem.hidden = false;
+    resultsNavItem.hidden = false;
+
 
     // Show the logged-in username in the hero section
-    usernameDisplay.textContent = currentUser.username;
-    
+    usernameDisplay.textContent = username;
+
     /*
     Only admins should see the Admin Dashboard link.
-   
-    his controls what is visible in the interface.
-        IMPORTANT:
-           Real admin security must also be checked
-           by the backend.
     */
-    if (currentUser.role === "admin") {
+    if (role === "admin") {
         adminNavItem.hidden = false;
+    } else {
+        adminNavItem.hidden = true;
     }
+}
 
 
-    // ------------------------------
-    // USER IS NOT LOGGED IN
-    // ------------------------------
+// ------------------------------
+// USER IS NOT LOGGED IN
+// ------------------------------
 
-} else {
+else {
 
     // Visitors should see Login and Register links, but not the username + Logout section
     guestNav.hidden = false;
@@ -104,6 +95,10 @@ if (currentUser) {
     loginRequired.hidden = false;
 
     adminNavItem.hidden = true;
+
+    // Visitors should not see pages that require login
+    homeNavItem.hidden = true;
+    resultsNavItem.hidden = true;
 }
 
 // ------------------------------
@@ -114,8 +109,11 @@ if (logoutButton) {
 
     logoutButton.addEventListener("click", () => {
 
-        sessionStorage.removeItem("currentUser");
+        // Remove login information saved by auth.js
+        localStorage.removeItem("username");
+        localStorage.removeItem("role");
 
+        // Return to homepage
         window.location.href = "index.html";
     });
 
