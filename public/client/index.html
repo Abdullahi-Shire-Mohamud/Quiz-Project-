@@ -127,65 +127,54 @@
                 <!-- Filter quizzes by category and difficulty -->
                 <div class="filter-container">
 
+                    <!-- Category filter -->
                     <div class="filter-group">
-
                         <label for="category-filter">
                             Category
                         </label>
 
                         <select id="category-filter">
-
-                            <option value="all">
-                                All categories
-                            </option>
-
-                            <option value="HTML">
-                                HTML
-                            </option>
-
-                            <option value="CSS">
-                                CSS
-                            </option>
-
-                            <option value="JavaScript">
-                                JavaScript
-                            </option>
-
-                            <option value="Backend">
-                                Backend
-                            </option>
-
+                            <option value="all">All categories</option>
+                            <option value="HTML">HTML</option>
+                            <option value="CSS">CSS</option>
+                            <option value="JavaScript">JavaScript</option>
+                            <option value="Backend">Backend</option>
                         </select>
-
                     </div>
 
 
+                    <!-- Difficulty filter -->
                     <div class="filter-group">
-
                         <label for="difficulty-filter">
                             Difficulty
                         </label>
 
                         <select id="difficulty-filter">
-
-                            <option value="all">
-                                All difficulties
-                            </option>
-
-                            <option value="Easy">
-                                Easy
-                            </option>
-
-                            <option value="Medium">
-                                Medium
-                            </option>
-
-                            <option value="Hard">
-                                Hard
-                            </option>
-
+                            <option value="all">All difficulties</option>
+                            <option value="Easy">Easy</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Hard">Hard</option>
                         </select>
+                    </div>
 
+
+                    <!-- Sort quizzes -->
+                    <div class="filter-group">
+                        <label for="sort-filter">
+                            Sort by
+                        </label>
+
+                        <select id="sort-filter">
+                            <option value="default">Default</option>
+                            <option value="name-asc">Name A-Z</option>
+                            <option value="name-desc">Name Z-A</option>
+                            <option value="difficulty-asc">
+                                Difficulty: Easy to Hard
+                            </option>
+                            <option value="difficulty-desc">
+                                Difficulty: Hard to Easy
+                            </option>
+                        </select>
                     </div>
 
                 </div>

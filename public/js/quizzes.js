@@ -33,6 +33,10 @@ const categoryFilter =
 const difficultyFilter =
     document.querySelector("#difficulty-filter");
 
+// Sort dropdown
+const sortFilter =
+    document.querySelector("#sort-filter");
+
 
 
 // ------------------------------
@@ -173,9 +177,11 @@ function applyFilters() {
     // Selected difficulty
     const selectedDifficulty = difficultyFilter.value;
 
+    // Selected sorting option
+    const selectedSort = sortFilter.value;
 
     // Filter the quiz array
-    const filteredQuizzes =
+    let filteredQuizzes =
         quizzes.filter((quiz) => {
 
             const matchesSearch =
@@ -200,6 +206,72 @@ function applyFilters() {
                 matchesDifficulty
             );
         });
+
+
+    // ------------------------------
+    // SORT QUIZZES
+    // ------------------------------
+
+    /*
+        Create a copy before sorting.
+
+        .sort() changes the original array,
+        so using [...filteredQuizzes] prevents
+        unwanted changes to our quiz data.
+    */
+
+    filteredQuizzes = [...filteredQuizzes];
+
+    // Sort quiz titles alphabetically A-Z
+    if (selectedSort === "name-asc") {
+
+        filteredQuizzes.sort((a, b) =>
+            a.title.localeCompare(b.title)
+        );
+    }
+
+
+    // Sort quiz titles alphabetically Z-A
+    else if (selectedSort === "name-desc") {
+
+        filteredQuizzes.sort((a, b) =>
+            b.title.localeCompare(a.title)
+        );
+    }
+
+    else if (selectedSort === "difficulty-asc") {
+
+        const difficultyOrder = {
+            Easy: 1,
+            Medium: 2,
+            Hard: 3
+        };
+
+
+        // Easy -> Medium -> Hard
+        filteredQuizzes.sort(
+            (a, b) =>
+                difficultyOrder[a.difficulty] -
+                difficultyOrder[b.difficulty]
+        );
+    }
+
+
+    // Hard -> Medium ->Easy
+    else if (selectedSort === "difficulty-desc") {
+
+        const difficultyOrder = {
+            Easy: 1,
+            Medium: 2,
+            Hard: 3
+        };
+
+        filteredQuizzes.sort(
+            (a, b) =>
+                difficultyOrder[b.difficulty] -
+                difficultyOrder[a.difficulty]
+        );
+    }
 
 
     // Render filtered quizzes
@@ -241,6 +313,12 @@ categoryFilter.addEventListener(
 );
 
 difficultyFilter.addEventListener(
+    "change",
+    applyFilters
+);
+
+// Update quiz order when sorting changes
+sortFilter.addEventListener(
     "change",
     applyFilters
 );

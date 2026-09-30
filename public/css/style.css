@@ -425,7 +425,11 @@ a {
 ------------------------------ */
 
 .filter-container {
-    display: flex;
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
     gap: 1rem;
 
     margin-top: 1rem;
@@ -434,8 +438,6 @@ a {
 .filter-group {
     display: flex;
     flex-direction: column;
-
-    width: 220px;
 }
 
 .filter-group label {
@@ -448,6 +450,7 @@ a {
 }
 
 .filter-group select {
+    width: 100%;
     padding: 0.8rem 1rem;
 
     font-family: "Poppins", sans-serif;
@@ -563,13 +566,11 @@ a {
     display: grid;
 
     grid-template-columns:
-        repeat(3, minmax(0, 1fr));
+        repeat(2, minmax(0, 1fr));
 
     gap: 1rem;
 
     margin-top: 1.5rem;
-
-    min-height: 100px;
 }
 
 
@@ -602,6 +603,10 @@ a {
     }
 
     .quiz-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .filter-container {
         grid-template-columns: 1fr;
     }
 }
