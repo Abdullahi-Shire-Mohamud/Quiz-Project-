@@ -1,5 +1,11 @@
 const quizList = document.querySelector("#quiz-list");
 
+// Search input
+const searchInput = document.querySelector("#quiz-search");
+
+// Displays information about search results
+const searchStatus = document.querySelector("#search-status");
+
 
 // Temporary quiz data.
 // Later this will come from the database using fetch().
@@ -36,10 +42,24 @@ function renderQuizzes(quizArray) {
     // Remove old cards before rendering
     quizList.replaceChildren();
 
+    // Show a message if there are no quizzes to display
+    if (quizArray.length === 0) {
 
+        const emptyMessage =
+            document.createElement("p");
+
+        emptyMessage.textContent =
+            "No quizzes found.";
+
+        quizList.appendChild(emptyMessage);
+
+        return;
+    }
+
+    // Create one card for every quiz
     quizArray.forEach((quiz) => {
 
-        // Create quiz card
+
         const quizCard = document.createElement("article");
         quizCard.classList.add("quiz-card");
 
@@ -82,6 +102,38 @@ function renderQuizzes(quizArray) {
     });
 }
 
+// Search quizzes
+searchInput.addEventListener("input", () => {
 
-// Render quizzes when page loads
+    // Get what the user typed
+    const searchTerm =
+        searchInput.value.trim().toLowerCase();
+    // Keep quizes whose title contains the user's search term
+    const filteredQuizzes = quizzes.filter((quiz) => {
+
+        return quiz.title
+            .toLowerCase()
+            .includes(searchTerm);
+
+    });
+
+    // Display the matching quizzes
+    renderQuizzes(filteredQuizzes);
+
+    // No search term? Show all quizzes
+    if (searchTerm === "") {
+
+        searchStatus.textContent = "";
+
+        return;
+    }
+
+
+    // Show how many quizzes matched
+    searchStatus.textContent =
+        `${filteredQuizzes.length} quiz(es) found.`;
+
+});
+
+// Show all quizzes when the page first loads
 renderQuizzes(quizzes);
