@@ -124,7 +124,71 @@
                     <p id="search-status" aria-live="polite"></p>
 
                 </div>
+                <!-- Filter quizzes by category and difficulty -->
+                <div class="filter-container">
 
+                    <div class="filter-group">
+
+                        <label for="category-filter">
+                            Category
+                        </label>
+
+                        <select id="category-filter">
+
+                            <option value="all">
+                                All categories
+                            </option>
+
+                            <option value="HTML">
+                                HTML
+                            </option>
+
+                            <option value="CSS">
+                                CSS
+                            </option>
+
+                            <option value="JavaScript">
+                                JavaScript
+                            </option>
+
+                            <option value="Backend">
+                                Backend
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="filter-group">
+
+                        <label for="difficulty-filter">
+                            Difficulty
+                        </label>
+
+                        <select id="difficulty-filter">
+
+                            <option value="all">
+                                All difficulties
+                            </option>
+
+                            <option value="Easy">
+                                Easy
+                            </option>
+
+                            <option value="Medium">
+                                Medium
+                            </option>
+
+                            <option value="Hard">
+                                Hard
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
                 <div id="quiz-list" class="quiz-grid" aria-live="polite">
                     <!-- Quiz cards will later be created here with JavaScript -->
                 </div>

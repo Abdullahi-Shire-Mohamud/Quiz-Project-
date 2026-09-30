@@ -18,12 +18,10 @@ body {
     font-family: "Poppins", sans-serif;
     color: #f7f7ff;
 
-    background: linear-gradient(
-        135deg,
-        #171a3d,
-        #25285f,
-        #35327a
-    );
+    background: linear-gradient(135deg,
+            #171a3d,
+            #25285f,
+            #35327a);
 }
 
 
@@ -247,11 +245,9 @@ a {
 .register-button {
     color: white;
 
-    background: linear-gradient(
-        135deg,
-        #7c5cff,
-        #d45cc7
-    );
+    background: linear-gradient(135deg,
+            #7c5cff,
+            #d45cc7);
 }
 
 .register-button:hover {
@@ -425,6 +421,66 @@ a {
 }
 
 /* ------------------------------
+   QUIZ FILTERS
+------------------------------ */
+
+.filter-container {
+    display: flex;
+    gap: 1rem;
+
+    margin-top: 1rem;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+
+    width: 220px;
+}
+
+.filter-group label {
+    margin-bottom: 0.5rem;
+
+    color: #e5e7ff;
+
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.filter-group select {
+    padding: 0.8rem 1rem;
+
+    font-family: "Poppins", sans-serif;
+    font-size: 0.95rem;
+
+    color: white;
+
+    background: #34376f;
+
+    border: 1px solid rgba(255, 255, 255, 0.15);
+
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    outline: none;
+}
+
+.filter-group select:focus {
+    border-color: #9b87ff;
+
+    box-shadow:
+        0 0 0 3px rgba(155, 135, 255, 0.2);
+}
+
+
+/* Message shown when no quizzes match */
+
+.empty-message {
+    color: #c9cfff;
+}
+
+/* ------------------------------
    QUIZ CARDS
 ------------------------------ */
 
@@ -482,11 +538,9 @@ a {
 
     color: #ffffff;
 
-    background: linear-gradient(
-        135deg,
-        #7c5cff,
-        #a75cff
-    );
+    background: linear-gradient(135deg,
+            #7c5cff,
+            #a75cff);
 
     border-radius: 10px;
 
@@ -583,5 +637,13 @@ a {
 
     .guest-actions a {
         text-align: center;
+    }
+
+    .filter-container {
+        flex-direction: column;
+    }
+
+    .filter-group {
+        width: 100%;
     }
 }
