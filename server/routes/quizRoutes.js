@@ -37,5 +37,22 @@ router.get("/quizzes", async (req, res) => {
     }
 });
 
+router.get("/quizzes/questions/:quizId", async(req, res) => {
+    console.log("Question route test");
+try {
+    const answerResult = await pool.query(
+        'SELECT id, question_text, option_a, option_b, option_c, option_d, correct_option FROM questions WHERE quiz_id = $1 ORDER BY id',
+        [req.params.quizId]
+    );
+    res.json(answerResult.rows);
+}
+catch (error) {
+    console.log(error);
+    return res.status(500).json({
+        message: "Could not load questions."
+    });
+}
+    
+});
 
 module.exports = router;
