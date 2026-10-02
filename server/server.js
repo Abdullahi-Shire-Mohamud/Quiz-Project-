@@ -5,6 +5,7 @@ const path = require("path");
 const pool = require("./db");
 
 const authRoutes = require("./routes/authRoutes");
+const quizRoutes = require("./routes/quizRoutes");
 
 const app = express();
 const PORT = 3000;
@@ -32,6 +33,7 @@ app.use(
 // Example:
 // POST /api/login
 app.use("/api", authRoutes);
+app.use("/api", quizRoutes);
 
 
 // -------------------------------------
