@@ -4,13 +4,15 @@
     Handles quiz functionality on the homepage.
 
     Currently:
-    - stores temporary quiz data
+    - loads quizzes from the backend using fetch()
     - creates quiz cards dynamically
     - searches quizzes by title
     - filters quizzes by category
     - filters quizzes by difficulty
+    - sorts quizzes
 
-    Later the quiz data will come from the database.
+    Quiz data now comes from PostgreSQL through:
+    GET /api/quizzes
 */
 
 
@@ -33,47 +35,22 @@ const categoryFilter =
 const difficultyFilter =
     document.querySelector("#difficulty-filter");
 
-// Sort dropdown
 const sortFilter =
     document.querySelector("#sort-filter");
 
 
 
 // ------------------------------
-// TEMPORARY QUIZ DATA
+// QUIZ DATA
 // ------------------------------
 
-const quizzes = [
+/*
+    The array starts empty.
 
-    {
-        id: 1,
-        title: "HTML Basics",
-        category: "HTML",
-        difficulty: "Easy"
-    },
-
-    {
-        id: 2,
-        title: "CSS Fundamentals",
-        category: "CSS",
-        difficulty: "Easy"
-    },
-
-    {
-        id: 3,
-        title: "JavaScript Basics",
-        category: "JavaScript",
-        difficulty: "Medium"
-    },
-
-    {
-        id: 4,
-        title: "Node.js & Express",
-        category: "Backend",
-        difficulty: "Medium"
-    }
-
-];
+    loadQuizzes() will fill it with data
+    retrieved from the server/database.
+*/
+let quizzes = [];
 
 
 
@@ -158,7 +135,7 @@ function renderQuizzes(quizArray) {
 
 
 // ------------------------------
-// SEARCH AND FILTER
+// SEARCH + FILTER + SORT
 // ------------------------------
 
 function applyFilters() {
@@ -296,7 +273,87 @@ function applyFilters() {
         `${filteredQuizzes.length} quiz(es) found.`;
 }
 
+// ------------------------------
+// LOAD QUIZZES FROM SERVER
+// ------------------------------
 
+async function loadQuizzes() {
+
+    /*
+        Show loading state while waiting
+        for the backend/database.
+    */
+    quizList.replaceChildren();
+
+    const loadingMessage =
+        document.createElement("p");
+
+    loadingMessage.textContent =
+        "Loading quizzes...";
+
+    quizList.appendChild(loadingMessage);
+
+
+    try {
+
+        /*
+            Ask the Express backend for quizzes.
+
+            The backend then retrieves them
+            from PostgreSQL.
+        */
+        const response =
+            await fetch("/api/quizzes");
+
+
+        // Handle unsuccessful server responses
+        if (!response.ok) {
+
+            throw new Error(
+                "Could not load quizzes."
+            );
+        }
+
+
+        // Convert server JSON into JavaScript data
+        const data =
+            await response.json();
+
+
+        // Save database quizzes in our array
+        quizzes = data;
+
+
+        // Display quizzes from the database
+        renderQuizzes(quizzes);
+
+
+    } catch (error) {
+
+        console.error(
+            "Error loading quizzes:",
+            error
+        );
+
+
+        // Clear loading message
+        quizList.replaceChildren();
+
+
+        // Show user-friendly server error
+        const errorMessage =
+            document.createElement("p");
+
+        errorMessage.classList.add(
+            "empty-message"
+        );
+
+        errorMessage.textContent =
+            "Could not load quizzes. Please try again later.";
+
+        quizList.appendChild(errorMessage);
+    }
+}
 
 // ------------------------------
 // EVENT LISTENERS
@@ -330,4 +387,4 @@ sortFilter.addEventListener(
 // ------------------------------
 
 // Display all quizzes when the page loads
-renderQuizzes(quizzes);
+loadQuizzes();
