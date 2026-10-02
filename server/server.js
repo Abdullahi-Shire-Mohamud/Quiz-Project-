@@ -6,6 +6,7 @@ const pool = require("./db");
 
 const authRoutes = require("./routes/authRoutes");
 const quizRoutes = require("./routes/quizRoutes");
+const registerRoutes = require("./routes/registerRoutes");
 
 const app = express();
 const PORT = 3000;
@@ -34,6 +35,7 @@ app.use(
 // POST /api/login
 app.use("/api", authRoutes);
 app.use("/api", quizRoutes);
+app.use("/api", registerRoutes);
 
 
 // -------------------------------------
