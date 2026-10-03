@@ -1,8 +1,6 @@
 //clicked on a quiz, fetch the questions.
 //idea is to have a showquestion function, the eventlistener is on all the buttons, have a for loop to give every button an eventlistener.
 
-const { json } = require("express");
-
 //at the end of the game call showresult:
 const idfromURL = new URLSearchParams(window.location.search).get("quizId");
 let questions = [];
