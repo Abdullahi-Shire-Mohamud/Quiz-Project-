@@ -29,19 +29,22 @@ async function fetchQuestions(){
 function showQuestion(){
     const currentQuestion = questions[currentQuestionID];
     question.textContent = currentQuestion.question_text;
-
+    //console.log(currentQuestion);
+    //get the texts for the options
+    const text =[currentQuestion.option_a,currentQuestion.option_b,currentQuestion.option_c,currentQuestion.option_d]
     buttons.forEach((button, index) => {
-        button.textContent = currentQuestion.options[index];
-       // console.log(button);
+        button.textContent = text[index];
+       
     });
-
 };
 
-//adds eventListeners
+//adds eventListeners //also get the correct options
+let correctOptionLetter = ["A","B","C","D"];
 
 buttons.forEach((button,index) =>{
     button.addEventListener("click",() => {
-        if(index ===questions[currentQuestionID].correct_option){//update this line
+        const q = questions[currentQuestionID];
+        if(correctOptionLetter[index] ===q.correct_option){//checks if the index is the same as the correct_option.
             score++
         }
         currentQuestionID++
@@ -50,8 +53,8 @@ buttons.forEach((button,index) =>{
             showQuestion();
         }
         else{
-           //send to result.html with information.. update later
-           window.location.href = "result.html"
+           //send to result.html with information.. update later either index or result.html
+           window.location.href = 'result.html';
         }
     });
       
