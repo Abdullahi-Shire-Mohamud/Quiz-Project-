@@ -1,5 +1,8 @@
 //clicked on a quiz, fetch the questions.
 //idea is to have a showquestion function, the eventlistener is on all the buttons, have a for loop to give every button an eventlistener.
+
+const { json } = require("express");
+
 //at the end of the game call showresult:
 const idfromURL = new URLSearchParams(window.location.search).get("quizId");
 let questions = [];
@@ -41,8 +44,8 @@ function showQuestion(){
 //adds eventListeners //also get the correct options
 let correctOptionLetter = ["A","B","C","D"];
 
-buttons.forEach((button,index) =>{
-    button.addEventListener("click",() => {
+buttons.forEach((button,index)=>{
+    button.addEventListener("click",async () => {
         const q = questions[currentQuestionID];
         if(correctOptionLetter[index] ===q.correct_option){//checks if the index is the same as the correct_option.
             score++
@@ -53,8 +56,26 @@ buttons.forEach((button,index) =>{
             showQuestion();
         }
         else{
+            const response = await fetch("/api/attempts",{
+                method: "POST",
+                headers:{
+                    "content-type": "application/json"
+                },
+                body: JSON.stringify({
+                    quizId: Number(idfromURL),
+                    score,
+                    total: questions.length,
+                    username: localStorage.getItem("username")
+                })
+            });
+            const data = await response.json();
            //send to result.html with information.. update later either index or result.html
-           window.location.href = 'result.html';
+           if (data.success){
+            window.location.href = 'result.html?id='+data.id;
+           }
+           else{
+                question.textContent = "Could not save your attempt, please try again later"
+           };
         }
     });
       

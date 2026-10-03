@@ -34,3 +34,15 @@ CREATE TABLE IF NOT EXISTS questions (
 
     question_order INTEGER NOT NULL
 );
+--Save attempts in a table to read from within result.html
+CREATE TABLE IF NOT EXISTS attempts(
+    id SERIAL PRIMARY KEY,
+    quiz_id INTEGER NOT NULL
+        REFERENCES quizzes(id)
+        ON DELETE CASCADE,
+    username TEXT NOT NULL,
+    score INTEGER NOT NULL,
+    total INTEGER NOT NULL,
+    created_at TIMESTAMP NOT NULL
+        DEFAULT CURRENT_TIMESTAMP
+);
