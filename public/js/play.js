@@ -2,7 +2,7 @@
 //idea is to have a showquestion function, the eventlistener is on all the buttons, have a for loop to give every button an eventlistener.
 
 //at the end of the game call showresult:
-const idfromURL = new URLSearchParams(window.location.search).get("quizId");
+const idfromURL = new URLSearchParams(window.location.search).get("id");
 let questions = [];
 let currentQuestionID = 0;
 let score = 0;
@@ -69,7 +69,7 @@ buttons.forEach((button,index)=>{
             const data = await response.json();
            //send to result.html with information.. update later either index or result.html
            if (data.success){
-            window.location.href = 'result.html?id='+data.id;
+               window.location.href = "results.html?id=" + data.id;
            }
            else{
                 question.textContent = "Could not save your attempt, please try again later"
