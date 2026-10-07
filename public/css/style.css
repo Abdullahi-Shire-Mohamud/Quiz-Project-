@@ -651,4 +651,311 @@ a {
     .filter-group {
         width: 100%;
     }
+
+}
+
+/* ------------------------------
+   RESULTS PAGE
+------------------------------ */
+
+.results-page {
+    width: 100%;
+    max-width: 900px;
+
+    margin: 0 auto;
+
+    padding: 4rem 2rem;
+}
+
+
+/* Single result after completing quiz */
+
+.result-card {
+    width: 100%;
+    max-width: 650px;
+
+    margin: 0 auto;
+
+    padding: 2.5rem;
+
+    background: rgba(255, 255, 255, 0.07);
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 18px 45px rgba(0, 0, 0, 0.18);
+}
+
+
+.result-label {
+    margin: 0 0 0.7rem;
+
+    color: #c5b8ff;
+
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+
+.result-card h1 {
+    margin: 0;
+
+    font-family: "Fredoka", sans-serif;
+
+    font-size: 2.4rem;
+    font-weight: 700;
+
+    color: #ffffff;
+}
+
+
+#result-score {
+    margin-top: 1.2rem;
+    margin-bottom: 0.4rem;
+
+    font-size: 1.25rem;
+    font-weight: 600;
+
+    color: #ffffff;
+}
+
+
+#result-message {
+    margin-top: 0.5rem;
+
+    color: #c9cfff;
+
+    line-height: 1.6;
+}
+
+
+/* ------------------------------
+   RESULTS HISTORY
+------------------------------ */
+
+.results-history {
+    width: 100%;
+}
+
+
+.results-history>h1 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+
+    font-family: "Fredoka", sans-serif;
+
+    font-size: 2.7rem;
+    font-weight: 700;
+
+    color: #ffffff;
+}
+
+
+#history-status {
+    margin-top: 0.4rem;
+    margin-bottom: 1.5rem;
+
+    color: #c9cfff;
+}
+
+
+#history {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 1rem;
+}
+
+
+/* Individual saved attempt */
+
+.attempts-block {
+    position: relative;
+
+    padding: 1.5rem;
+
+    background: rgba(255, 255, 255, 0.07);
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+
+    border-radius: 16px;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+
+.attempts-block:hover {
+    transform: translateY(-3px);
+
+    background: rgba(255, 255, 255, 0.1);
+
+    border-color: rgba(197, 184, 255, 0.35);
+}
+
+
+.attempts-block h3 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+
+    font-family: "Fredoka", sans-serif;
+
+    font-size: 1.35rem;
+    font-weight: 600;
+
+    color: #ffffff;
+}
+
+
+.attempts-block p {
+    margin: 0.4rem 0;
+
+    color: #c9cfff;
+
+    font-size: 0.95rem;
+}
+
+
+.attempts-block p:first-of-type {
+    color: #ffffff;
+
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+
+/* Delete result button */
+
+.delete-result-button {
+    margin-top: 1.2rem;
+
+    padding: 0.6rem 1rem;
+
+    font-family: "Poppins", sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    color: #ffd7e1;
+
+    background: rgba(255, 91, 130, 0.12);
+
+    border: 1px solid rgba(255, 120, 150, 0.3);
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        border-color 0.2s ease;
+}
+
+
+.delete-result-button:hover {
+    background: rgba(255, 91, 130, 0.22);
+
+    border-color: rgba(255, 150, 170, 0.5);
+
+    transform: translateY(-2px);
+}
+
+
+/* ------------------------------
+   RESULT ACTIONS
+------------------------------ */
+
+.result-actions {
+    margin-top: 2rem;
+}
+
+
+.result-home-button {
+    display: inline-block;
+
+    padding: 0.75rem 1.2rem;
+
+    color: #ffffff;
+
+    background: linear-gradient(135deg,
+            #7c5cff,
+            #a75cff);
+
+    border-radius: 12px;
+
+    text-decoration: none;
+
+    font-weight: 600;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.result-home-button:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 20px rgba(124, 92, 255, 0.25);
+}
+
+
+/* ------------------------------
+   RESULTS RESPONSIVE DESIGN
+------------------------------ */
+
+@media (max-width: 800px) {
+
+    .results-page {
+        padding: 2.5rem 1.5rem;
+    }
+
+    #history {
+        grid-template-columns: 1fr;
+    }
+
+    .results-history>h1 {
+        font-size: 2.3rem;
+    }
+}
+
+
+@media (max-width: 500px) {
+
+    .results-page {
+        padding: 2rem 1rem;
+    }
+
+    .result-card {
+        padding: 1.5rem;
+    }
+
+    .result-card h1 {
+        font-size: 2rem;
+    }
+
+    .results-history>h1 {
+        font-size: 2rem;
+    }
+
+    .attempts-block {
+        padding: 1.3rem;
+    }
+
+    .delete-result-button {
+        width: 100%;
+    }
+
+    .result-home-button {
+        width: 100%;
+
+        text-align: center;
+    }
 }
