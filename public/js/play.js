@@ -25,6 +25,9 @@ const question =
 const buttons =
     document.querySelectorAll(".answer-button");
 
+const questionProgress =
+    document.querySelector("#question-progress");
+
 
 // Maps button index to answer letter
 const correctOptionLetter =
@@ -92,6 +95,9 @@ function showQuestion() {
 
     question.textContent =
         currentQuestion.question_text;
+
+    questionProgress.textContent =
+        `Question ${currentQuestionID + 1} of ${questions.length}`;
 
 
     const optionText = [
