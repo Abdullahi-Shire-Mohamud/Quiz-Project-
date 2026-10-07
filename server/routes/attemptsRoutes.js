@@ -90,6 +90,39 @@ router.get("/attempts/:id", async (req, res) => {
     }
 });//read from attempt, used for result.html
 
+//read for history page, get all attempts by username
+router.get("/attempts",async(req,res)=>{
+    const username = req.query.username;
+      try {
+        const result = await pool.query(
+            `
+            SELECT
+                attempts.id,
+                attempts.username,
+                attempts.score,
+                attempts.total,
+                attempts.created_at,
+                quizzes.id AS quiz_id,
+                quizzes.title AS quiz_title
+            FROM attempts
+            JOIN quizzes
+                ON attempts.quiz_id = quizzes.id
+                WHERE attempts.username = $1
+                ORDER BY attempts.created_at DESC
+            `,
+            [username]
+        );
+        return res.json(result.rows);//returns a whole array thats will be looped over
+    }
+    catch (error) {
+
+        console.error("Attempt read error:", error);
+
+        return res.status(500).json({
+            message: "Could not read attempt."
+        });
+    }
+});
 
 
 module.exports = router;

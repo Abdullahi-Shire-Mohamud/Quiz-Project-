@@ -23,6 +23,9 @@ const resultScore =
 const resultMessage =
     document.querySelector("#result-message");
 
+const history = 
+    document.querySelector("#history");
+
 
 
 async function loadResult() {
@@ -98,4 +101,55 @@ async function loadResult() {
 }
 
 
+//loadresultALL
+
+async function loadResultAll() {
+    const username = localStorage.getItem("username");
+    try {
+
+        const response =
+            await fetch(`/api/attempts?username=`+ encodeURI(username));
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Could not load result 3."
+            );
+        }
+
+        //here we have DOM manipulation as js makes html
+        const attempt =
+            await response.json();
+
+        if(!(attempt.length === 0)){
+            resultTitle.textContent = "Attempts Made"
+            attempt.forEach(attempts =>{
+            const blockAttempts = document.createElement("div");
+            blockAttempts.classList.add("attempts-block");
+            blockAttempts.innerHTML = '<h3>Quiz:'+attempts.quiz_title+'</h3><p>Score:'+attempts.score+'/'+attempts.total+'</p><p>Date:'+attempts.created_at+'</p>';
+            history.appendChild(blockAttempts);
+        });
+        }
+        else {
+            //not done any quizzes
+            resultTitle.textContent = "No attempts at the moment, play a quiz first";
+        };
+
+    } catch (error) {
+
+        console.error(
+            "Result loading error:",
+            error
+        );
+
+        resultTitle.textContent =
+            "Could not load your result 2.";
+    }
+}
+//divide usages
+if(attemptId){
 loadResult();
+}
+else{
+loadResultAll();
+}
