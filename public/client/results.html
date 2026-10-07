@@ -23,7 +23,8 @@
 
     <main class="results-page">
 
-        <section class="result-card">
+        <!-- Shown directly after completing a quiz -->
+        <section class="result-card" id="single-result">
 
             <p class="result-label">
                 Quiz completed ✨
@@ -36,10 +37,30 @@
             <p id="result-score"></p>
 
             <p id="result-message"></p>
-            <div id="history">
-                    <!-- Here history of attempts is shown made in js -->
+
+            <div class="result-actions">
+
+                <a href="index.html" class="result-home-button">
+                    Back to Quizzes
+                </a>
+
             </div>
 
+        </section>
+
+
+        <!-- Shown when user opens My Results -->
+        <section class="results-history" id="results-history" hidden>
+
+            <h1>My Results</h1>
+
+            <p id="history-status">
+                Loading your results...
+            </p>
+
+            <div id="history">
+                <!-- Attempts are created dynamically in results.js -->
+            </div>
 
             <div class="result-actions">
 

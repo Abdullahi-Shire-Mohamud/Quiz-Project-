@@ -91,8 +91,15 @@ router.get("/attempts/:id", async (req, res) => {
 });//read from attempt, used for result.html
 
 //read for history page, get all attempts by username
-router.get("/attempts",async(req,res)=>{
+router.get("/attempts", async (req, res) => {
     const username = req.query.username;
+    if (!username) {
+
+        return res.status(400).json({
+            message: "Username is required."
+        });
+    }
+
       try {
         const result = await pool.query(
             `
@@ -124,6 +131,77 @@ router.get("/attempts",async(req,res)=>{
     }
 });
 
+// -------------------------------------
+// DELETE ONE RESULT FROM USER HISTORY
+// DELETE /api/attempts/:id
+// -------------------------------------
+
+router.delete("/attempts/:id", async (req, res) => {
+
+    const attemptId =
+        req.params.id;
+
+    const username =
+        req.body.username;
+
+
+    if (!username) {
+
+        return res.status(400).json({
+            success: false,
+            message: "Username is required."
+        });
+    }
+
+
+    try {
+
+        const result =
+            await pool.query(
+                `
+                DELETE FROM attempts
+                WHERE id = $1
+                AND username = $2
+                RETURNING id
+                `,
+                [
+                    attemptId,
+                    username
+                ]
+            );
+
+
+        if (result.rows.length === 0) {
+
+            return res.status(404).json({
+                success: false,
+                message:
+                    "Result not found or does not belong to this user."
+            });
+        }
+
+
+        return res.json({
+            success: true,
+            message: "Result deleted."
+        });
+
+
+    } catch (error) {
+
+        console.error(
+            "Attempt delete error:",
+            error
+        );
+
+
+        return res.status(500).json({
+            success: false,
+            message:
+                "Could not delete result."
+        });
+    }
+});
 
 module.exports = router;
 

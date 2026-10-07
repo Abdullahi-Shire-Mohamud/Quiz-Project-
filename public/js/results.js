@@ -1,8 +1,9 @@
 /*
     results.js
 
-    Loads the saved quiz attempt
-    after a quiz has been completed.
+    Displays either:
+    1. One completed quiz result
+    2. The logged-in user's result history
 */
 
 
@@ -14,6 +15,14 @@ const attemptId =
     ).get("id");
 
 
+const username =
+    localStorage.getItem("username");
+
+
+// Single result elements
+const singleResult =
+    document.querySelector("#single-result");
+
 const resultTitle =
     document.querySelector("#result-title");
 
@@ -23,22 +32,24 @@ const resultScore =
 const resultMessage =
     document.querySelector("#result-message");
 
-const history = 
+
+// History elements
+const resultsHistory =
+    document.querySelector("#results-history");
+
+const history =
     document.querySelector("#history");
 
+const historyStatus =
+    document.querySelector("#history-status");
 
+
+
+// -------------------------------------
+// LOAD ONE RESULT
+// -------------------------------------
 
 async function loadResult() {
-
-    // No attempt ID was provided
-    if (!attemptId) {
-
-        resultTitle.textContent =
-            "Result not found.";
-
-        return;
-    }
-
 
     try {
 
@@ -68,7 +79,7 @@ async function loadResult() {
             `Score: ${attempt.score} / ${attempt.total}`;
 
 
-        // Give simple feedback
+        // Final message
         if (attempt.score === attempt.total) {
 
             resultMessage.textContent =
@@ -101,55 +112,254 @@ async function loadResult() {
 }
 
 
-//loadresultALL
 
-async function loadResultAll() {
-    const username = localStorage.getItem("username");
+// -------------------------------------
+// LOAD RESULT HISTORY
+// -------------------------------------
+
+async function loadResultHistory() {
+
+    if (!username) {
+
+        historyStatus.textContent =
+            "Please log in to view your results.";
+
+        return;
+    }
+
+
     try {
 
         const response =
-            await fetch(`/api/attempts?username=`+ encodeURI(username));
+            await fetch(
+                `/api/attempts?username=${encodeURIComponent(username)}`
+            );
+
 
         if (!response.ok) {
 
             throw new Error(
-                "Could not load result 3."
+                "Could not load result history."
             );
         }
 
-        //here we have DOM manipulation as js makes html
-        const attempt =
+
+        const attempts =
             await response.json();
 
-        if(!(attempt.length === 0)){
-            resultTitle.textContent = "Attempts Made"
-            attempt.forEach(attempts =>{
-            const blockAttempts = document.createElement("div");
-            blockAttempts.classList.add("attempts-block");
-            blockAttempts.innerHTML = '<h3>Quiz:'+attempts.quiz_title+'</h3><p>Score:'+attempts.score+'/'+attempts.total+'</p><p>Date:'+attempts.created_at+'</p>';
-            history.appendChild(blockAttempts);
-        });
+
+        // Remove old content before rendering
+        history.replaceChildren();
+
+
+        if (attempts.length === 0) {
+
+            historyStatus.textContent =
+                "You have not completed any quizzes yet.";
+
+            return;
         }
-        else {
-            //not done any quizzes
-            resultTitle.textContent = "No attempts at the moment, play a quiz first";
-        };
+
+
+        historyStatus.textContent = "";
+
+
+        attempts.forEach((attempt) => {
+
+            createAttemptCard(attempt);
+
+        });
+
 
     } catch (error) {
 
         console.error(
-            "Result loading error:",
+            "Result history error:",
             error
         );
 
-        resultTitle.textContent =
-            "Could not load your result 2.";
+        historyStatus.textContent =
+            "Could not load your results.";
     }
 }
-//divide usages
-if(attemptId){
-loadResult();
+
+
+
+// -------------------------------------
+// CREATE ATTEMPT CARD
+// -------------------------------------
+
+function createAttemptCard(attempt) {
+
+    const card =
+        document.createElement("article");
+
+    card.classList.add("attempts-block");
+
+    card.dataset.attemptId =
+        attempt.id;
+
+
+    // Quiz title
+    const title =
+        document.createElement("h3");
+
+    title.textContent =
+        attempt.quiz_title;
+
+
+    // Score
+    const score =
+        document.createElement("p");
+
+    score.textContent =
+        `Score: ${attempt.score} / ${attempt.total}`;
+
+
+    // Date
+    const date =
+        document.createElement("p");
+
+    const formattedDate =
+        new Date(
+            attempt.created_at
+        ).toLocaleString();
+
+    date.textContent =
+        `Date: ${formattedDate}`;
+
+
+    // Delete button
+    const deleteButton =
+        document.createElement("button");
+
+    deleteButton.type =
+        "button";
+
+    deleteButton.classList.add(
+        "delete-result-button"
+    );
+
+    deleteButton.textContent =
+        "Delete";
+
+
+    deleteButton.addEventListener(
+        "click",
+        () => deleteAttempt(
+            attempt.id,
+            card
+        )
+    );
+
+
+    card.appendChild(title);
+    card.appendChild(score);
+    card.appendChild(date);
+    card.appendChild(deleteButton);
+
+    history.appendChild(card);
 }
-else{
-loadResultAll();
+
+
+
+// -------------------------------------
+// DELETE ONE ATTEMPT
+// -------------------------------------
+
+async function deleteAttempt(
+    attemptId,
+    card
+) {
+
+    const confirmed =
+        window.confirm(
+            "Are you sure you want to delete this result?"
+        );
+
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `/api/attempts/${attemptId}`,
+                {
+                    method: "DELETE",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        username: username
+                    })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Could not delete result."
+            );
+        }
+
+
+        // Remove result from page without reload
+        card.remove();
+
+
+        // If no attempts remain, show empty state
+        if (
+            history.children.length === 0
+        ) {
+
+            historyStatus.textContent =
+                "You have not completed any quizzes yet.";
+        }
+
+
+    } catch (error) {
+
+        console.error(
+            "Delete result error:",
+            error
+        );
+
+        alert(
+            "Could not delete the result."
+        );
+    }
+}
+
+
+
+// -------------------------------------
+// CHOOSE PAGE MODE
+// -------------------------------------
+
+if (attemptId) {
+
+    singleResult.hidden = false;
+    resultsHistory.hidden = true;
+
+    loadResult();
+
+} else {
+
+    singleResult.hidden = true;
+    resultsHistory.hidden = false;
+
+    loadResultHistory();
 }
