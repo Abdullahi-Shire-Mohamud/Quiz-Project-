@@ -6,10 +6,10 @@ const message = document.querySelector("#message")
 //inputs are already shown for the put path
 async function loadQuiz(quizId){
     try {
-        const quizzesresult = await fetch("api/quizzes");
-        const questionresult = await fetch("api/quizzes/questions/"+quizId);
+        const quizzesresult = await fetch("/api/quizzes");
+        const questionresult = await fetch("/api/quizzes/questions/" + quizId);
 
-        if(questionresult.response != ok|| quizzesresult.response != ok){
+        if(!questionresult.ok || !quizzesresult.ok){
             throw new Error("Could not load information from the quiz");
         }
         //load all the quizzes and find the one where it matches our id
@@ -21,9 +21,9 @@ async function loadQuiz(quizId){
             message.textContent = "Could not find quiz";
         }
         //update the basic information first
-        document.querySelector("#quiz-title").value.trim() = quiz.title;
-        document.querySelector("#quiz-category").value.trim() = quiz.category;
-        document.querySelector("#quiz-difficulty").value.trim() = quiz.difficulty;
+        document.querySelector("#quiz-title").value = quiz.title;
+        document.querySelector("#quiz-category").value = quiz.category;
+        document.querySelector("#quiz-difficulty").value = quiz.difficulty;
 
         //update question information(somewhat same as the read but flipped as there isnt a push anymore)
          const questionblock = document.querySelectorAll(".question-block");//questiontext,qoptiona,qoptionb etc and qcorrectoption.
@@ -154,13 +154,4 @@ submitButton.addEventListener("click", async() => {
    }
 });
 }
-
-
-
-
-
-
-
-
-
 

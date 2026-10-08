@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard | QuizHub</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+</head>
+
+
+<body>
+
+
+    <!-- Navigation -->
+    <nav class="navbar">
+
+        <a href="index.html" class="logo">
+            QuizHub
+        </a>
+
+        <ul class="nav-links">
+
+            <li>
+                <a href="index.html">
+                    Home
+                </a>
+            </li>
+
+            <li>
+                <a href="results.html">
+                    My Results
+                </a>
+            </li>
+
+            <li>
+                <a href="admin.html">
+                    Admin
+                </a>
+            </li>
+
+        </ul>
+
+    </nav>
+
+
+    <!-- Admin dashboard -->
+
+    <main class="admin-page">
+
+
+        <!-- Page heading -->
+
+        <section class="admin-header">
+
+            <div>
+
+                <p class="admin-label">
+                    Admin Dashboard
+                </p>
+
+                <h1>
+                    Manage Quizzes
+                </h1>
+
+                <p class="admin-description">
+                    Create, edit and delete quizzes available on QuizHub.
+                </p>
+
+            </div>
+
+
+            <!-- Takes admin to the create quiz page -->
+
+            <a href="admin-quiz.html" class="create-quiz-button">
+
+                Create Quiz
+
+            </a>
+
+        </section>
+
+
+
+        <!-- Message area for loading, success or errors -->
+        <p id="admin-message">
+            Loading quizzes...
+        </p>
+
+
+        <!--
+            adminDashboard.js will create
+            the quiz cards inside this container
+        -->
+
+        <section id="admin-quiz-list" class="admin-quiz-list">
+
+            </section>
+
+    </main>
+
+
+    <!-- Handles the admin quiz dashboard -->
+
+    <script src="../js/adminDashboard.js"></script>
+
+
+</body>
+
+</html>
