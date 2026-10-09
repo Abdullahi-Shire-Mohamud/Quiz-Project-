@@ -1,2 +1,481 @@
-//admin quiz adding and modifying in the same page: all the forms in one page, one question block per question. The question block has information such as
-//questiontext,qoptiona,qoptionb etc and qcorrectoption. All under the same class so that they are loopable
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Manage Quiz | QuizHub</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+</head>
+
+
+<body>
+
+
+    <nav class="navbar">
+
+        <a href="index.html" class="logo">
+            QuizHub
+        </a>
+
+
+        <ul class="nav-links">
+
+            <li>
+                <a href="index.html">
+                    Home
+                </a>
+            </li>
+
+            <li>
+                <a href="results.html">
+                    My Results
+                </a>
+            </li>
+
+            <li>
+                <a href="admin.html">
+                    Admin
+                </a>
+            </li>
+
+        </ul>
+
+    </nav>
+
+
+
+    <main class="admin-quiz-page">
+
+
+        <section class="admin-quiz-header">
+
+            <div>
+
+                <p class="admin-label">
+                    Admin
+                </p>
+
+                <h1>
+                    Create or Edit Quiz
+                </h1>
+
+                <p class="admin-description">
+                    Enter the quiz information and questions below.
+                </p>
+
+            </div>
+
+
+            <a href="admin.html" class="admin-back-button">
+                Back to Dashboard
+            </a>
+
+        </section>
+
+
+
+        <section class="admin-quiz-form">
+
+
+            <!-- Quiz information -->
+
+            <div class="quiz-information">
+
+                <h2>
+                    Quiz Information
+                </h2>
+
+
+                <div class="admin-form-group">
+
+                    <label for="quiz-title">
+                        Quiz Title
+                    </label>
+
+                    <input type="text" id="quiz-title" placeholder="Example: HTML Basics">
+
+                </div>
+
+
+                <div class="admin-form-group">
+
+                    <label for="quiz-category">
+                        Category
+                    </label>
+
+                    <input type="text" id="quiz-category" placeholder="Example: HTML">
+
+                </div>
+
+
+                <div class="admin-form-group">
+
+                    <label for="quiz-difficulty">
+                        Difficulty
+                    </label>
+
+                    <select id="quiz-difficulty">
+
+                        <option value="">
+                            Select difficulty
+                        </option>
+
+                        <option value="Easy">
+                            Easy
+                        </option>
+
+                        <option value="Medium">
+                            Medium
+                        </option>
+
+                        <option value="Hard">
+                            Hard
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Question 1 -->
+
+            <div class="question-block">
+
+                <h2>
+                    Question 1
+                </h2>
+
+
+                <div class="admin-form-group">
+
+                    <label>
+                        Question
+                    </label>
+
+                    <input type="text" class="questiontext" placeholder="Enter the question">
+
+                </div>
+
+
+                <div class="admin-form-group">
+
+                    <label>
+                        Option A
+                    </label>
+
+                    <input type="text" class="qoptiona" placeholder="Answer option A">
+
+                </div>
+
+
+                <div class="admin-form-group">
+
+                    <label>
+                        Option B
+                    </label>
+
+                    <input type="text" class="qoptionb" placeholder="Answer option B">
+
+                </div>
+
+
+                <div class="admin-form-group">
+
+                    <label>
+                        Option C
+                    </label>
+
+                    <input type="text" class="qoptionc" placeholder="Answer option C">
+
+                </div>
+
+
+                <div class="admin-form-group">
+
+                    <label>
+                        Option D
+                    </label>
+
+                    <input type="text" class="qoptiond" placeholder="Answer option D">
+
+                </div>
+
+
+                <div class="admin-form-group">
+
+                    <label>
+                        Correct Answer
+                    </label>
+
+                    <select class="qcorrectoption">
+
+                        <option value="">
+                            Select correct answer
+                        </option>
+
+                        <option value="A">
+                            A
+                        </option>
+
+                        <option value="B">
+                            B
+                        </option>
+
+                        <option value="C">
+                            C
+                        </option>
+
+                        <option value="D">
+                            D
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Question 2 -->
+
+            <div class="question-block">
+
+                <h2>
+                    Question 2
+                </h2>
+
+
+                <div class="admin-form-group">
+
+                    <label>
+                        Question
+                    </label>
+
+                    <input type="text" class="questiontext" placeholder="Enter the question">
+
+                </div>
+
+
+                <div class="admin-form-group">
+
+                    <label>
+                        Option A
+                    </label>
+
+                    <input type="text" class="qoptiona" placeholder="Answer option A">
+
+                </div>
+
+
+                <div class="admin-form-group">
+
+                    <label>
+                        Option B
+                    </label>
+
+                    <input type="text" class="qoptionb" placeholder="Answer option B">
+
+                </div>
+
+
+                <div class="admin-form-group">
+
+                    <label>
+                        Option C
+                    </label>
+
+                    <input type="text" class="qoptionc" placeholder="Answer option C">
+
+                </div>
+
+
+                <div class="admin-form-group">
+
+                    <label>
+                        Option D
+                    </label>
+
+                    <input type="text" class="qoptiond" placeholder="Answer option D">
+
+                </div>
+
+
+                <div class="admin-form-group">
+
+                    <label>
+                        Correct Answer
+                    </label>
+
+                    <select class="qcorrectoption">
+
+                        <option value="">
+                            Select correct answer
+                        </option>
+
+                        <option value="A">
+                            A
+                        </option>
+
+                        <option value="B">
+                            B
+                        </option>
+
+                        <option value="C">
+                            C
+                        </option>
+
+                        <option value="D">
+                            D
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Question 3 -->
+
+            <div class="question-block">
+
+                <h2>
+                    Question 3
+                </h2>
+
+
+                <div class="admin-form-group">
+
+                    <label>
+                        Question
+                    </label>
+
+                    <input type="text" class="questiontext" placeholder="Enter the question">
+
+                </div>
+
+
+                <div class="admin-form-group">
+
+                    <label>
+                        Option A
+                    </label>
+
+                    <input type="text" class="qoptiona" placeholder="Answer option A">
+
+                </div>
+
+
+                <div class="admin-form-group">
+
+                    <label>
+                        Option B
+                    </label>
+
+                    <input type="text" class="qoptionb" placeholder="Answer option B">
+
+                </div>
+
+
+                <div class="admin-form-group">
+
+                    <label>
+                        Option C
+                    </label>
+
+                    <input type="text" class="qoptionc" placeholder="Answer option C">
+
+                </div>
+
+
+                <div class="admin-form-group">
+
+                    <label>
+                        Option D
+                    </label>
+
+                    <input type="text" class="qoptiond" placeholder="Answer option D">
+
+                </div>
+
+                
+                <div class="admin-form-group">
+
+                    <label>
+                        Correct Answer
+                    </label>
+
+                    <select class="qcorrectoption">
+
+                        <option value="">
+                            Select correct answer
+                        </option>
+
+                        <option value="A">
+                            A
+                        </option>
+
+                        <option value="B">
+                            B
+                        </option>
+
+                        <option value="C">
+                            C
+                        </option>
+
+                        <option value="D">
+                            D
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+            <!-- Form message -->
+
+            <p id="message"></p>
+
+            <!-- Form actions -->
+
+            <div class="admin-form-actions">
+
+                <a href="admin.html" class="admin-back-button">
+                    Cancel
+                </a>
+
+                <button type="button" id="submit-button">
+                    Save Quiz
+                </button>
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+    <script src="../js/admin.js"></script>
+
+
+</body>
+
+</html>

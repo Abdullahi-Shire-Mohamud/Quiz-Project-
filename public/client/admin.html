@@ -3,7 +3,6 @@
 
 <head>
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Admin Dashboard | QuizHub</title>
@@ -11,7 +10,6 @@
     <link rel="stylesheet" href="../css/style.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
-
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <link
@@ -19,11 +17,8 @@
         rel="stylesheet">
 </head>
 
-
 <body>
 
-
-    <!-- Navigation -->
     <nav class="navbar">
 
         <a href="index.html" class="logo">
@@ -55,12 +50,7 @@
     </nav>
 
 
-    <!-- Admin dashboard -->
-
     <main class="admin-page">
-
-
-        <!-- Page heading -->
 
         <section class="admin-header">
 
@@ -81,8 +71,6 @@
             </div>
 
 
-            <!-- Takes admin to the create quiz page -->
-
             <a href="admin-quiz.html" class="create-quiz-button">
 
                 Create Quiz
@@ -92,29 +80,21 @@
         </section>
 
 
-
-        <!-- Message area for loading, success or errors -->
         <p id="admin-message">
             Loading quizzes...
         </p>
 
 
-        <!--
-            adminDashboard.js will create
-            the quiz cards inside this container
-        -->
-
         <section id="admin-quiz-list" class="admin-quiz-list">
 
-            </section>
+            <!-- Quizzes are added here with adminDashboard.js -->
+
+        </section>
 
     </main>
 
 
-    <!-- Handles the admin quiz dashboard -->
-
     <script src="../js/adminDashboard.js"></script>
-
 
 </body>
 
