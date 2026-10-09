@@ -13,23 +13,17 @@ router.get("/quizzes", async (req, res) => {
 
     try {
 
-        const answerResult = await pool.query(
-            `
-    SELECT
-        id,
-        question_text,
-        option_a,
-        option_b,
-        option_c,
-        option_d,
-        correct_option
-    FROM questions
-    WHERE quiz_id = $1
-    ORDER BY question_order
-    `,
-            [req.params.quizId]
-        );
-
+       const result = await pool.query(`
+            SELECT
+                id,
+                title,
+                description,
+                category,
+                difficulty,
+                created_at
+            FROM quizzes
+            ORDER BY id
+        `);
         return res.json(result.rows);
 
     } catch (error) {
