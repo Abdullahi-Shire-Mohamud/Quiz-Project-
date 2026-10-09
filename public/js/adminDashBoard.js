@@ -65,7 +65,7 @@ function renderQuizzes(quizArray) {
 
     // Create one card for each quiz
     quizArray.forEach((quiz) => {
-
+        //test console.log(quiz.id);
         const quizCard = document.createElement("article");
         quizCard.classList.add("quiz-card");
 
@@ -111,7 +111,7 @@ function renderQuizzes(quizArray) {
     deleteButton.addEventListener(
         "click",
         () => deleteQuiz(
-            quiz.quizid,
+            quiz.id,
             quizCard
         )
     );
@@ -222,7 +222,7 @@ async function deleteQuiz(
     quizid,
     card
 ) {
-
+    //console.log(quizid);
     const confirmed =
         window.confirm(
             "Are you sure you want to delete this quiz?"
@@ -248,8 +248,8 @@ async function deleteQuiz(
         const data =
             await response.json();
 
-
-        if (!response.ok||data.success) {
+            //test console.log(response.status,data);
+        if (!response.ok||!data.success) {
 
             throw new Error(
                 data.message ||

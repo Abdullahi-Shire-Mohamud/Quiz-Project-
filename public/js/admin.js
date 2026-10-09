@@ -69,7 +69,7 @@ submitButton.addEventListener("click", async() => {
     });
     //pre validate
     if(!quiztitle||!quizCategory||!quizdiff||questions.some(q => Object.values(q).some(v => v === ""))){
-        console.log("Fill in every input");
+        //test console.log("Fill in every input");
         return message.textContent = "Fill in every input";
     }
    try {
@@ -84,7 +84,8 @@ submitButton.addEventListener("click", async() => {
             })
         });
         const data = await response.json();
-        if(response.ok&& data.success){
+        console.log(response.status,data)
+        if(response.ok && data.success){
             window.location.href = "index.html";
         }
         else{

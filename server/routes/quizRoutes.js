@@ -57,13 +57,14 @@ router.get("/quizzes/questions/:quizId", async (req, res) => {
 //for making a quiz
 router.post("/quizzes", async (req, res) => {
     const { title, category, difficulty, questions } = req.body;
+    //testconsole.log("Post innehåll:",JSON.stringify(req.body),null,2);
 
     //validate
     if (typeof title != "string" || typeof category != "string" || typeof difficulty != "string" || questions.length === 0) {
         res.status(400).json({ success: false, message: "Invalid data" });
     }
     if (!questions.every(q => ["question_text", "option_a", "option_b", "option_c", "option_d", "correct_option"].every(v => typeof q[v] === "string")
-        && (q.correct_option === ("A" || "B" || "C" || "D")))) {
+        && (["A","B","C","D"].includes(q.correct_option)))) {
         return res.status(400).json({ success: false, message: "Invalid question data" });
     }
     //commit
@@ -77,7 +78,7 @@ router.post("/quizzes", async (req, res) => {
         for (let i = 0; i < questions.length; i++) {
 
             const q = questions[i];
-
+            //testconsole.log(q);
             await client.query(
                 `
         INSERT INTO questions (
@@ -207,7 +208,7 @@ router.delete("/quizzes/:id", async (req, res) => {
     catch (error) {
         await client.query("ROLLBACK");
         console.error(error)
-        res.status(500).json({ success: false, message: "Could not Delete, please try again later" })
+        res.status(500).json({ success: false, message: "Could not delete, please try again later" })
 
     }
     finally {
