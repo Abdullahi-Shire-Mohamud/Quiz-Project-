@@ -40,7 +40,7 @@ router.get("/quizzes/questions/:quizId", async (req, res) => {
     console.log("Question route test");
     try {
         const answerResult = await pool.query(
-            'SELECT id, question_text, option_a, option_b, option_c, option_d, correct_option FROM questions WHERE quiz_id = $1 ORDER BY id',
+            'SELECT id, question_text, option_a, option_b, option_c, option_d, correct_option FROM questions WHERE quiz_id = $1 ORDER BY question_order',
             [req.params.quizId]
         );
         res.json(answerResult.rows);
@@ -110,10 +110,20 @@ router.post("/quizzes", async (req, res) => {
 
     }
     catch (error) {
-        await client.query("ROLLBACK");
-        res.status(500).json({ success: false, message: "Could not create the quiz, please try again later" })
 
+        await client.query("ROLLBACK");
+
+        console.error(
+            "CREATE QUIZ ERROR:",
+            error
+        );
+
+        return res.status(500).json({
+            success: false,
+            message: "Could not create the quiz, please try again later"
+        });
     }
+
     finally {
         client.release();
     }
@@ -132,8 +142,17 @@ router.post("/quizzes", async (req, res) => {
 router.put("/quizzes/:id", async (req, res) => {
     const { title, category, difficulty, questions } = req.body;
     //validate same as POST
-    if (typeof title != "string" || typeof category != "string" || typeof difficulty != "string" || questions.length === 0) {
-        return res.status(400).json({ success: false, message: "Invalid data" });
+    if (
+        typeof title !== "string" ||
+        typeof category !== "string" ||
+        typeof difficulty !== "string" ||
+        !Array.isArray(questions) ||
+        questions.length === 0
+    ) {
+        return res.status(400).json({
+            success: false,
+            message: "Invalid data"
+        });
     }
     if (!questions.every(q => ["question_text", "option_a", "option_b", "option_c", "option_d", "correct_option"].every(v => typeof q[v] === "string")
         && ["A", "B", "C", "D"].includes(q.correct_option))) {
@@ -185,9 +204,6 @@ router.delete("/quizzes/:id", async (req, res) => {
     const client = await pool.connect();
     try {
         await client.query("BEGIN");
-        await client.query('DELETE FROM questions WHERE quiz_id = $1',
-            [req.params.id]
-        );
         const deleteQuiz = await client.query(
             `
     DELETE FROM quizzes

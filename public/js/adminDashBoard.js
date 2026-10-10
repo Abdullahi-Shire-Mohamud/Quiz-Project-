@@ -1,6 +1,3 @@
-//this is essentially the same page as "my result" in that you can directly delete from here but add and modify takes you
-//to another page!
-
 // ------------------------------
 // GET ELEMENTS FROM INDEX.HTML
 // ------------------------------
@@ -12,16 +9,6 @@ const adminmessage =
 const createquizbutton =
     document.querySelector(".create-quiz-button");
 
-
-    createquizbutton.type =
-        "button";
-
-    createquizbutton.classList.add(
-        "create-quiz-button"
-    );
-
-    createquizbutton.textContent =
-        "Create Quiz";
 // ------------------------------
 // QUIZ DATA
 // ------------------------------

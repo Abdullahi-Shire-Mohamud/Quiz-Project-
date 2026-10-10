@@ -19,6 +19,7 @@ async function loadQuiz(quizId){
         //no quiz
         if(!quiz){
             message.textContent = "Could not find quiz";
+            return;
         }
         //update the basic information first
         document.querySelector("#quiz-title").value = quiz.title;
@@ -86,7 +87,7 @@ submitButton.addEventListener("click", async() => {
         const data = await response.json();
         console.log(response.status,data)
         if(response.ok && data.success){
-            window.location.href = "index.html";
+            window.location.href = "admin.html";
         }
         else{
             message.textContent = "Could not create the quiz";
