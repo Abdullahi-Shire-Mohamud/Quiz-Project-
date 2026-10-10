@@ -128,14 +128,6 @@ router.post("/quizzes", async (req, res) => {
         client.release();
     }
 
-
-    //insert quiz
-
-    //insert questions 
-
-    //return success or failure, then release
-
-
 });
 
 //modify with PUT
