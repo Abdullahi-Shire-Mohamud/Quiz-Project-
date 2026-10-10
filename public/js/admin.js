@@ -283,12 +283,9 @@ else {//edit,same idea but a PUT instead by ID
         const quizdiff = document.querySelector("#quiz-difficulty").value.trim();
 
         const questions = [];
-
-        //block 1
         const questionblock = document.querySelectorAll(".question-block");//questiontext,qoptiona,qoptionb etc and qcorrectoption.
         questionblock.forEach(b => {
             questions.push({
-                id: Number(b.dataset.id),
                 question_text: b.querySelector(".questiontext").value.trim(),
                 option_a: b.querySelector(".qoptiona").value.trim(),
                 option_b: b.querySelector(".qoptionb").value.trim(),

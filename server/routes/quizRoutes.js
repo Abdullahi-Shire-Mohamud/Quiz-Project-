@@ -132,64 +132,200 @@ router.post("/quizzes", async (req, res) => {
 
 //modify with PUT
 router.put("/quizzes/:id", async (req, res) => {
-    const { title, category, difficulty, questions } = req.body;
-    //validate same as POST
+
+    const quizId = Number(req.params.id);
+
+    const {
+        title,
+        category,
+        difficulty,
+        questions
+    } = req.body;
+
+
+    // Validate quiz information
     if (
         typeof title !== "string" ||
+        title.trim() === "" ||
         typeof category !== "string" ||
-        typeof difficulty !== "string" ||
+        category.trim() === "" ||
+        !["Easy", "Medium", "Hard"].includes(difficulty) ||
         !Array.isArray(questions) ||
         questions.length === 0
     ) {
+
         return res.status(400).json({
             success: false,
-            message: "Invalid data"
+            message: "Invalid quiz data"
         });
     }
-    if (!questions.every(q => ["question_text", "option_a", "option_b", "option_c", "option_d", "correct_option"].every(v => typeof q[v] === "string")
-        && ["A", "B", "C", "D"].includes(q.correct_option))) {
-        return res.status(400).json({ success: false, message: "Invalid question data" });
+
+
+    // Validate questions
+    const questionsAreValid =
+        questions.every(question =>
+
+            typeof question.question_text === "string" &&
+            question.question_text.trim() !== "" &&
+
+            typeof question.option_a === "string" &&
+            question.option_a.trim() !== "" &&
+
+            typeof question.option_b === "string" &&
+            question.option_b.trim() !== "" &&
+
+            typeof question.option_c === "string" &&
+            question.option_c.trim() !== "" &&
+
+            typeof question.option_d === "string" &&
+            question.option_d.trim() !== "" &&
+
+            ["A", "B", "C", "D"].includes(
+                question.correct_option
+            )
+        );
+
+
+    if (!questionsAreValid) {
+
+        return res.status(400).json({
+            success: false,
+            message: "Invalid question data"
+        });
     }
 
-    //commit
-    const client = await pool.connect();
+
+    const client =
+        await pool.connect();
+
+
     try {
+
         await client.query("BEGIN");
-        const updateQuiz = await client.query('UPDATE quizzes SET title = $1, category = $2, difficulty = $3 WHERE id = $4',
-            [title.trim(), category.trim(), difficulty.trim(), req.params.id]
-        );
-        //if there isnt anything to update
-        if (updateQuiz.rowCount === 0) {
+
+
+        // Update quiz information
+        const quizResult =
+            await client.query(
+                `
+                UPDATE quizzes
+
+                SET
+                    title = $1,
+                    category = $2,
+                    difficulty = $3
+
+                WHERE id = $4
+
+                RETURNING id
+                `,
+                [
+                    title.trim(),
+                    category.trim(),
+                    difficulty,
+                    quizId
+                ]
+            );
+
+
+        if (quizResult.rowCount === 0) {
+
             await client.query("ROLLBACK");
-            return res.status(404).json({ success: false, message: "Couldnt find quiz" });
+
+            return res.status(404).json({
+                success: false,
+                message: "Quiz not found"
+            });
         }
 
-        for (const q of questions) {
-            const resultq = await client.query('UPDATE questions SET question_text = $1, option_a = $2, option_b = $3, option_c = $4, option_d = $5, correct_option = $6 WHERE id = $7 AND quiz_id = $8',
-                [q.question_text.trim(), q.option_a.trim(), q.option_b.trim(), q.option_c.trim(), q.option_d.trim(), q.correct_option, q.id, req.params.id]
+
+        // Delete old questions
+        await client.query(
+            `
+            DELETE FROM questions
+            WHERE quiz_id = $1
+            `,
+            [quizId]
+        );
+
+
+        // Insert the current questions again
+        for (
+            let i = 0;
+            i < questions.length;
+            i++
+        ) {
+
+            const question =
+                questions[i];
+
+
+            await client.query(
+                `
+                INSERT INTO questions (
+                    quiz_id,
+                    question_text,
+                    option_a,
+                    option_b,
+                    option_c,
+                    option_d,
+                    correct_option,
+                    question_order
+                )
+
+                VALUES (
+                    $1,
+                    $2,
+                    $3,
+                    $4,
+                    $5,
+                    $6,
+                    $7,
+                    $8
+                )
+                `,
+                [
+                    quizId,
+                    question.question_text.trim(),
+                    question.option_a.trim(),
+                    question.option_b.trim(),
+                    question.option_c.trim(),
+                    question.option_d.trim(),
+                    question.correct_option,
+                    i + 1
+                ]
             );
-            //checks for question just incase if we get back no question.
-            if (resultq.rowCount === 0) {
-                throw new Error("The question missing");
-            };
-        };
+        }
+
 
         await client.query("COMMIT");
-        res.json({ success: true })
 
-    }
-    catch (error) {
+
+        res.json({
+            success: true,
+            message: "Quiz updated successfully"
+        });
+
+    } catch (error) {
+
         await client.query("ROLLBACK");
-        console.error(error);
-        res.status(500).json({ success: false, message: "Could not update, please try again later" })
 
-    }
-    finally {
+        console.error(
+            "UPDATE QUIZ ERROR:",
+            error
+        );
+
+
+        res.status(500).json({
+            success: false,
+            message: "Could not update quiz"
+        });
+
+    } finally {
+
         client.release();
     }
-
 });
-
 
 //DELETE 
 router.delete("/quizzes/:id", async (req, res) => {
