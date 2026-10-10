@@ -267,10 +267,16 @@ function applyFilters() {
         return;
     }
 
-
     // Show number of matching quizzes
-    searchStatus.textContent =
-        `${filteredQuizzes.length} quiz(es) found.`;
+    if (filteredQuizzes.length === 0) {
+
+        searchStatus.textContent = "";
+
+    } else {
+
+        searchStatus.textContent =
+            `${filteredQuizzes.length} quiz(es) found.`;
+    }
 }
 
 // ------------------------------
