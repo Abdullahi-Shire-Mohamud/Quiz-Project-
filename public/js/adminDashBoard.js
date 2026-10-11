@@ -2,6 +2,18 @@
 // GET ELEMENTS FROM INDEX.HTML
 // ------------------------------
 
+//client side auth check for admin
+
+if(localStorage.getItem("role")!== "admin"){
+    window.location.replace("index.html");
+}
+
+
+
+
+
+
+
 const quizList =
     document.querySelector("#admin-quiz-list");
 const adminmessage =
@@ -228,6 +240,7 @@ async function deleteQuiz(
                 `/api/quizzes/${quizid}`,
                 {
                     method: "DELETE",
+                    headers:{"username" : localStorage.getItem("username")}
                 }
             );
 

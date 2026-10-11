@@ -1,7 +1,46 @@
 const express = require("express");
 const pool = require("../db");
+const fs = require("fs");
+const path = require("path");
+const usersFile = path.join(
+    __dirname,
+    "..",
+    "..",
+    "database",
+    "user.json"
+);
 
 const router = express.Router();
+//auth for admin route POST PUT and DELETE
+function authAdmin(req,res,next){
+    const username = req.get("username");
+
+    if(!username){//username undefined
+    return res.status(403).json({success: false, message: "Not admin"});
+    }
+
+
+    try {
+        // Read temporary users from user.json
+            const fileData = fs.readFileSync(usersFile, "utf8");
+            const users = JSON.parse(fileData);
+            //find the user
+            const user = users.find(
+                (user) =>
+                    user.username === username
+            );
+    //validate user
+    if(!user|| user.role!= "admin"){
+        return res.status(403).json({success: false, message: "Not admin"});
+    }
+    next();
+    } catch (error) {
+        console.error("Auth error",error);
+        return res.status(500).json({succcess:false,message: "Server error"});
+    }
+     
+};
+
 
 
 // -------------------------------------
@@ -55,7 +94,7 @@ router.get("/quizzes/questions/:quizId", async (req, res) => {
 });
 
 //for making a quiz
-router.post("/quizzes", async (req, res) => {
+router.post("/quizzes",authAdmin, async (req, res) => {
     const { title, category, difficulty, questions } = req.body;
     //testconsole.log("Post innehåll:",JSON.stringify(req.body),null,2);
 
@@ -131,7 +170,7 @@ router.post("/quizzes", async (req, res) => {
 });
 
 //modify with PUT
-router.put("/quizzes/:id", async (req, res) => {
+router.put("/quizzes/:id",authAdmin, async (req, res) => {
 
     const quizId = Number(req.params.id);
 
@@ -328,7 +367,7 @@ router.put("/quizzes/:id", async (req, res) => {
 });
 
 //DELETE 
-router.delete("/quizzes/:id", async (req, res) => {
+router.delete("/quizzes/:id",authAdmin, async (req, res) => {
     const client = await pool.connect();
     try {
         await client.query("BEGIN");

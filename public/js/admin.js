@@ -249,7 +249,9 @@ if (quizId === null) {//the button adds information with POST to server
         try {
             const response = await fetch("/api/quizzes", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: { "Content-Type": "application/json",
+                    "username" : localStorage.getItem("username")
+                 },
                 body: JSON.stringify({
                     title: quiztitle,
                     category: quizCategory,
@@ -303,7 +305,9 @@ else {//edit,same idea but a PUT instead by ID
         try {
             const response = await fetch("/api/quizzes/" + quizId, {
                 method: "PUT",
-                headers: { "Content-Type": "application/json" },
+                headers: { "Content-Type": "application/json",
+                    "username" : localStorage.getItem("username")
+                 },
                 body: JSON.stringify({
                     title: quiztitle,
                     category: quizCategory,
