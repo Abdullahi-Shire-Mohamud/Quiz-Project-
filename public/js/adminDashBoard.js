@@ -263,7 +263,6 @@ async function deleteQuiz(
                 `/api/quizzes/${quizid}`,
                 {
                     method: "DELETE",
-                    headers:{"username" : localStorage.getItem("username")}
                 }
             );
 
