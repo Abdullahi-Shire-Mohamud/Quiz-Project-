@@ -34,10 +34,8 @@ loginform.addEventListener("submit", async (event) => {
 
 
         if (response.ok && data.success) {
-            localStorage.setItem("username", data.user.username);
-            localStorage.setItem("role", data.user.role)
-            console.log("Logged in:", data);
-            window.location.href = "index.html";
+
+            window.location.href = "login.html";
 
         } else {
 
@@ -48,7 +46,7 @@ loginform.addEventListener("submit", async (event) => {
 
     } catch (error) {
 
-        console.error("Login error:", error);
+        console.error("Register error:", error);
 
         messageElement.textContent =
             "Could not connect to the server.";
