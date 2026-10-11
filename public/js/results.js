@@ -290,15 +290,6 @@ async function deleteAttempt(
                 `/api/attempts/${attemptId}`,
                 {
                     method: "DELETE",
-
-                    headers: {
-                        "Content-Type":
-                            "application/json"
-                    },
-
-                    body: JSON.stringify({
-                        username: username
-                    })
                 }
             );
 

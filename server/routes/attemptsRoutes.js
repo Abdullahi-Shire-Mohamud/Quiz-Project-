@@ -1,8 +1,27 @@
 //route for storing attempt information on table
 const express = require("express");
 const pool = require("../db");
+const sessions = require("../sessionStore");
 
 const router = express.Router();
+
+function authUser(req, res, next) {
+
+    const token =
+        req.signedCookies.authToken;
+
+    if (!token || !sessions[token]) {
+
+        return res.status(401).json({
+            success: false,
+            message: "You must be logged in."
+        });
+    }
+
+    req.user = sessions[token];
+
+    next();
+}
 
 router.post("/attempts", async (req, res) => {//write to table
     const { quizId, score, total, username } = req.body;
@@ -136,72 +155,55 @@ router.get("/attempts", async (req, res) => {
 // DELETE /api/attempts/:id
 // -------------------------------------
 
-router.delete("/attempts/:id", async (req, res) => {
+router.delete(
+    "/attempts/:id",
+    authUser,
+    async (req, res) => {
 
-    const attemptId =
-        req.params.id;
+        try {
 
-    const username =
-        req.body.username;
+            const result =
+                await pool.query(
+                    `
+                    DELETE FROM attempts
+                    WHERE id = $1
+                    AND username = $2
+                    RETURNING id
+                    `,
+                    [
+                        req.params.id,
+                        req.user.username
+                    ]
+                );
 
 
-    if (!username) {
+            if (result.rowCount === 0) {
 
-        return res.status(400).json({
-            success: false,
-            message: "Username is required."
-        });
-    }
+                return res.status(404).json({
+                    success: false,
+                    message: "Result not found."
+                });
+            }
 
 
-    try {
+            return res.json({
+                success: true
+            });
 
-        const result =
-            await pool.query(
-                `
-                DELETE FROM attempts
-                WHERE id = $1
-                AND username = $2
-                RETURNING id
-                `,
-                [
-                    attemptId,
-                    username
-                ]
+        } catch (error) {
+
+            console.error(
+                "Delete attempt error:",
+                error
             );
 
-
-        if (result.rows.length === 0) {
-
-            return res.status(404).json({
+            return res.status(500).json({
                 success: false,
-                message:
-                    "Result not found or does not belong to this user."
+                message: "Could not delete result."
             });
         }
-
-
-        return res.json({
-            success: true,
-            message: "Result deleted."
-        });
-
-
-    } catch (error) {
-
-        console.error(
-            "Attempt delete error:",
-            error
-        );
-
-
-        return res.status(500).json({
-            success: false,
-            message:
-                "Could not delete result."
-        });
     }
-});
+);
 
 module.exports = router;
 
