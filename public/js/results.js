@@ -15,10 +15,6 @@ const attemptId =
     ).get("id");
 
 
-const username =
-    localStorage.getItem("username");
-
-
 // Single result elements
 const singleResult =
     document.querySelector("#single-result");
@@ -58,7 +54,7 @@ async function loadResult() {
 
 
         if (!response.ok) {
-
+            console.log("status",response.status, attemptId)
             throw new Error(
                 "Could not load result."
             );
@@ -118,22 +114,20 @@ async function loadResult() {
 // -------------------------------------
 
 async function loadResultHistory() {
-
-    if (!username) {
-
-        historyStatus.textContent =
-            "Please log in to view your results.";
-
-        return;
-    }
-
-
     try {
 
         const response =
             await fetch(
-                `/api/attempts?username=${encodeURIComponent(username)}`
+                `/api/attempts`
             );
+
+        
+        if(response.status === 401){
+
+        historyStatus.textContent =
+            "Please log in to view your results.";
+            return;
+        }
 
 
         if (!response.ok) {

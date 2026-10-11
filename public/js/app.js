@@ -46,10 +46,32 @@ const resultsNavItem = document.querySelector("#results-nav-item");
     auth.js will save the following values in localStorage
     after a successful login.
 */
-const username = localStorage.getItem("username");
-const role = localStorage.getItem("role");
+//const username = localStorage.getItem("username");
+//const role = localStorage.getItem("role");
+let username = null;
+let role = null;
+//auth for admin
+async function loadUser(){
+    //from server side check
+    try {
+        const response = await fetch("/api/check");
+        const data = await response.json();
+        //checks
+        console.log("test",response.status,data);
+        if(!response.ok||!data.success){
+            return;
+        }
+       
+        username = data.user.username;
+        role = data.user.role;
+    } catch (error) {
+        //fetch returned an error
+        console.error("Check failed:",error); 
+    }
+};
 
-
+loadUser().then(()=>{
+    
 // ------------------------------
 // USER IS LOGGED IN
 // ------------------------------
@@ -124,3 +146,5 @@ if (logoutButton) {
     );
 
 }
+})
+

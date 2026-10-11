@@ -1,4 +1,34 @@
 //Here we have admin make and modify quizzes by inputting info for fetch, all in one page no stepping or refreshing
+//client side auth check for admin
+
+//auth for admin
+async function checkAdmin(){
+    //from server side check
+    try {
+        const response = await fetch("/api/check");
+        const data = await response.json();
+        //checks
+        console.log("test",response.status,data);
+        if(!response.ok||!data.success||data.user.role !== "admin"){
+           // console.log("testinside")
+            window.location.replace("index.html");
+            return false;
+        }
+        //user is admin
+        return true;
+    } catch (error) {
+        //fetch returned an error
+        console.error("Check failed:",error);
+       window.location.replace("index.html");
+        return false;
+    }
+};
+
+checkAdmin().then(admin=>{
+    if(admin){
+       //Granted access to admin-quiz
+
+       
 const quizId = new URLSearchParams(window.location.search).get("id");
 
 const submitButton = document.querySelector("#submit-button");
@@ -330,4 +360,17 @@ else {//edit,same idea but a PUT instead by ID
         }
     });
 }
+
+    }
+});
+
+
+
+
+
+
+
+
+
+
 

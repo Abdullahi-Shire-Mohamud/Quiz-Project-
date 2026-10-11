@@ -108,5 +108,15 @@ router.post("/logout", (req, res) => {
         message: "Logged out successfully."
     });
 });
+//for only showing admin dashboard to admins
+router.get("/check", (req,res)=>{
+    const token = req.signedCookies.authToken;
+    if(!(token&&sessions[token] )){
+        return res.status(401).json({success: false});
+    }
+    res.json({success: true,user:{username:sessions[token].username,role:sessions[token].role}});
+});
+
+
 
 module.exports = router;

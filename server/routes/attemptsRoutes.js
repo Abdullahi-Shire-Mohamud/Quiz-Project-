@@ -23,8 +23,9 @@ function authUser(req, res, next) {
     next();
 }
 
-router.post("/attempts", async (req, res) => {//write to table
-    const { quizId, score, total, username } = req.body;
+router.post("/attempts",authUser, async (req, res) => {//write to table
+    const username = req.user.username;
+    const { quizId, score, total } = req.body;
     if (!quizId || !username || typeof score != "number" || typeof total != "number") {
         return res.status(400).json({ success: false, message: "Invalid attempt information" });
     }
@@ -68,7 +69,7 @@ router.post("/attempts", async (req, res) => {//write to table
     }
 });
 
-router.get("/attempts/:id", async (req, res) => {
+router.get("/attempts/:id",authUser, async (req, res) => {
     try {
         const result = await pool.query(
             `
@@ -83,9 +84,9 @@ router.get("/attempts/:id", async (req, res) => {
             FROM attempts
             JOIN quizzes
                 ON attempts.quiz_id = quizzes.id
-            WHERE attempts.id = $1
+            WHERE attempts.id = $1 AND attempts.username = $2
             `,
-            [req.params.id]
+            [req.params.id,req.user.username]
         );
 
 
@@ -110,8 +111,8 @@ router.get("/attempts/:id", async (req, res) => {
 });//read from attempt, used for result.html
 
 //read for history page, get all attempts by username
-router.get("/attempts", async (req, res) => {
-    const username = req.query.username;
+router.get("/attempts",authUser, async (req, res) => {
+    const username = req.user.username;
     if (!username) {
 
         return res.status(400).json({
@@ -136,7 +137,7 @@ router.get("/attempts", async (req, res) => {
                 WHERE attempts.username = $1
                 ORDER BY attempts.created_at DESC
             `,
-            [username]
+            [req.user.username]
         );
         return res.json(result.rows);//returns a whole array thats will be looped over
     }

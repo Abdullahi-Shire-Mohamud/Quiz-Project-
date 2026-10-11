@@ -3,10 +3,33 @@
 // ------------------------------
 
 //client side auth check for admin
+async function checkAdmin(){
+    //from server side check
+    try {
+        const response = await fetch("/api/check");
+        const data = await response.json();
+        //checks
+        console.log("test",response.status,data);
+        if(!response.ok||!data.success||data.user.role !== "admin"){
+           // console.log("testinside")
+            window.location.replace("index.html");
+            return false;
+        }
+        //user is admin
+        return true;
+    } catch (error) {
+        //fetch returned an error
+        console.error("Check failed:",error);
+       window.location.replace("index.html");
+        return false;
+    }
+};
 
-if(localStorage.getItem("role")!== "admin"){
-    window.location.replace("index.html");
-}
+checkAdmin().then(admin=>{
+    if(admin){
+        loadQuizzes();
+    }
+});
 
 
 
@@ -288,4 +311,4 @@ async function deleteQuiz(
 
 
 
-loadQuizzes();
+//loadQuizzes();
