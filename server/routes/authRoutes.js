@@ -86,4 +86,27 @@ router.post("/login", async (req, res) => {
     }
 });
 
+// Logout route (POST /api/logout)
+router.post("/logout", (req, res) => {
+
+    const token =
+        req.signedCookies.authToken;
+
+
+    if (token) {
+
+        delete sessions[token];
+
+    }
+
+
+    res.clearCookie("authToken");
+
+
+    return res.json({
+        success: true,
+        message: "Logged out successfully."
+    });
+});
+
 module.exports = router;

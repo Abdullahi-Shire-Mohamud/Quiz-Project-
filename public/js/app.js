@@ -107,14 +107,20 @@ else {
 
 if (logoutButton) {
 
-    logoutButton.addEventListener("click", () => {
+    logoutButton.addEventListener(
+        "click", async () => {
+            await fetch(
+                "/api/logout",
+                {
+                    method: "POST"
+                }
+            );
 
-        // Remove login information saved by auth.js
-        localStorage.removeItem("username");
-        localStorage.removeItem("role");
+            localStorage.removeItem("username");
+            localStorage.removeItem("role");
 
-        // Return to homepage
-        window.location.href = "index.html";
-    });
+            window.location.href = "index.html";
+        }
+    );
 
 }
