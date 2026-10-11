@@ -2,6 +2,8 @@ const express = require("express");
 const pool = require("../db");
 const fs = require("fs");
 const path = require("path");
+const sessions = require("../sessionStore");
+
 const usersFile = path.join(
     __dirname,
     "..",
@@ -12,34 +14,38 @@ const usersFile = path.join(
 
 const router = express.Router();
 //auth for admin route POST PUT and DELETE
-function authAdmin(req,res,next){
-    const username = req.get("username");
+function authAdmin(req, res, next) {
 
-    if(!username){//username undefined
-    return res.status(403).json({success: false, message: "Not admin"});
+    const token =
+        req.signedCookies.authToken;
+
+
+    if (!token || !sessions[token]) {
+
+        return res.status(401).json({
+            success: false,
+            message: "You must be logged in."
+        });
     }
 
 
-    try {
-        // Read temporary users from user.json
-            const fileData = fs.readFileSync(usersFile, "utf8");
-            const users = JSON.parse(fileData);
-            //find the user
-            const user = users.find(
-                (user) =>
-                    user.username === username
-            );
-    //validate user
-    if(!user|| user.role!= "admin"){
-        return res.status(403).json({success: false, message: "Not admin"});
+    const user =
+        sessions[token];
+
+
+    if (user.role !== "admin") {
+
+        return res.status(403).json({
+            success: false,
+            message: "Admin access required."
+        });
     }
+
+
+    req.user = user;
+
     next();
-    } catch (error) {
-        console.error("Auth error",error);
-        return res.status(500).json({succcess:false,message: "Server error"});
-    }
-     
-};
+}
 
 
 
@@ -52,7 +58,7 @@ router.get("/quizzes", async (req, res) => {
 
     try {
 
-       const result = await pool.query(`
+        const result = await pool.query(`
             SELECT
                 id,
                 title,
@@ -94,7 +100,7 @@ router.get("/quizzes/questions/:quizId", async (req, res) => {
 });
 
 //for making a quiz
-router.post("/quizzes",authAdmin, async (req, res) => {
+router.post("/quizzes", authAdmin, async (req, res) => {
     const { title, category, difficulty, questions } = req.body;
     //testconsole.log("Post innehåll:",JSON.stringify(req.body),null,2);
 
@@ -103,7 +109,7 @@ router.post("/quizzes",authAdmin, async (req, res) => {
         res.status(400).json({ success: false, message: "Invalid data" });
     }
     if (!questions.every(q => ["question_text", "option_a", "option_b", "option_c", "option_d", "correct_option"].every(v => typeof q[v] === "string")
-        && (["A","B","C","D"].includes(q.correct_option)))) {
+        && (["A", "B", "C", "D"].includes(q.correct_option)))) {
         return res.status(400).json({ success: false, message: "Invalid question data" });
     }
     //commit
@@ -170,7 +176,7 @@ router.post("/quizzes",authAdmin, async (req, res) => {
 });
 
 //modify with PUT
-router.put("/quizzes/:id",authAdmin, async (req, res) => {
+router.put("/quizzes/:id", authAdmin, async (req, res) => {
 
     const quizId = Number(req.params.id);
 
@@ -367,7 +373,7 @@ router.put("/quizzes/:id",authAdmin, async (req, res) => {
 });
 
 //DELETE 
-router.delete("/quizzes/:id",authAdmin, async (req, res) => {
+router.delete("/quizzes/:id", authAdmin, async (req, res) => {
     const client = await pool.connect();
     try {
         await client.query("BEGIN");

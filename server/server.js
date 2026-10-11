@@ -2,6 +2,7 @@
 
 const express = require("express");
 const path = require("path");
+const cookieParser = require("cookie-parser");
 const pool = require("./db");
 
 const authRoutes = require("./routes/authRoutes");
@@ -18,6 +19,11 @@ const PORT = 3000;
 
 // Allows the server to read JSON sent from the frontend
 app.use(express.json());
+
+// Allows the server to read signed cookies
+app.use(
+    cookieParser(process.env.COOKIE_SECRET)
+);
 
 // Makes files inside /public available in the browser
 app.use(
@@ -82,4 +88,3 @@ app.get("/api/db-test", async (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}/client/index.html`);
 });
-//test//

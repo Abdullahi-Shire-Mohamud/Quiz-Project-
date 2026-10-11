@@ -1,6 +1,9 @@
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
+const crypto = require("crypto");
+
+const sessions = require("../sessionStore");
 
 const router = express.Router();
 
@@ -41,6 +44,25 @@ router.post("/login", async (req, res) => {
                 message: "Invalid username or password."
             });
         }
+
+        const token =
+            crypto.randomBytes(64).toString("hex");
+
+        sessions[token] = {
+            id: user.id,
+            username: user.username,
+            role: user.role
+        };
+
+        res.cookie(
+            "authToken",
+            token,
+            {
+                signed: true,
+                httpOnly: true
+            }
+        );
+
         // Successful login
         // Do NOT send the password back to the frontend
         return res.json({
