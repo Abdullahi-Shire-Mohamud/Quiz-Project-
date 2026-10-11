@@ -9,11 +9,13 @@
 
 html {
     scroll-behavior: smooth;
+    overscroll-behavior: none;
 }
 
 body {
     margin: 0;
     min-height: 100vh;
+    overscroll-behavior: none;
 
     font-family: "Poppins", sans-serif;
     color: #f7f7ff;
@@ -157,6 +159,10 @@ a {
 /* ------------------------------
    MAIN PAGE
 ------------------------------ */
+
+main {
+    min-height: 100vh;
+}
 
 .home-page {
     width: 100%;
@@ -1139,6 +1145,7 @@ a {
         min-height: 64px;
     }
 }
+
 /* ------------------------------
    ADMIN DASHBOARD
 ------------------------------ */
@@ -1544,6 +1551,89 @@ a {
         0 8px 20px rgba(124, 92, 255, 0.25);
 }
 
+/* Questions heading row */
+.questions-heading {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 1rem;
+
+    margin-bottom: 1.2rem;
+}
+
+/* Add question button */
+#add-question-button {
+    padding: 0.7rem 1.2rem;
+
+    border: none;
+    border-radius: 10px;
+
+    background: linear-gradient(135deg,
+            #7c5cff,
+            #9b5cff);
+
+    color: #ffffff;
+
+    font-family: "Poppins", sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        opacity 0.2s ease;
+}
+
+
+#add-question-button:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+}
+
+
+/* Remove question button */
+.remove-question-button {
+    padding: 0.55rem 1rem;
+
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 9px;
+
+    background: rgba(255, 255, 255, 0.08);
+
+    color: #ffb4b4;
+
+    font-family: "Poppins", sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.remove-question-button:hover {
+    background: rgba(255, 110, 110, 0.15);
+
+    transform: translateY(-1px);
+}
+
+/* Question block heading row */
+.question-block-header {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 1rem;
+
+    margin-bottom: 1.2rem;
+}
 
 
 /* ------------------------------
@@ -1609,5 +1699,27 @@ a {
         width: 100%;
 
         text-align: center;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .questions-heading {
+        align-items: stretch;
+
+        flex-direction: column;
+    }
+
+
+    .question-block-header {
+        align-items: stretch;
+
+        flex-direction: column;
+    }
+
+
+    #add-question-button,
+    .remove-question-button {
+        width: 100%;
     }
 }
