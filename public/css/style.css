@@ -155,6 +155,327 @@ a {
     transform: translateY(-2px);
 }
 
+/* -------------------------------------
+   LOGIN / REGISTER PAGES
+------------------------------------- */
+.auth-page {
+    margin: 0;
+
+    min-height: 100vh;
+
+    display: grid;
+    place-items: center;
+
+    padding: 2rem;
+
+    font-family: "Poppins", sans-serif;
+
+    background:
+        linear-gradient(135deg,
+            #171a3d,
+            #1d2150,
+            #25285f);
+}
+
+
+/* Soft blurred background effect */
+.auth-page::before {
+    content: "";
+
+    position: fixed;
+    inset: -30px;
+
+    background:
+        radial-gradient(circle at 20% 20%,
+            rgba(124, 92, 255, 0.18),
+            transparent 35%),
+        radial-gradient(circle at 80% 70%,
+            rgba(212, 92, 199, 0.12),
+            transparent 35%);
+
+    filter: blur(35px);
+
+    z-index: -1;
+}
+
+
+.auth-card {
+    min-height: auto;
+
+    position: relative;
+
+    width: min(100% - 2rem, 400px);
+
+    padding: 2rem;
+
+    background: rgba(255, 255, 255, 0.07);
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.18);
+
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+}
+
+
+/* QuizHub label */
+.auth-label {
+    margin: 0 0 0.3rem;
+
+    text-align: center;
+
+    font-family: "Fredoka", sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+
+    color: #c5b8ff;
+}
+
+
+/* Login / Register title */
+.auth-card h1 {
+    margin: 0 0 0.4rem;
+
+    text-align: center;
+
+    font-family: "Fredoka", sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+
+    color: #ffffff;
+}
+
+
+/* Small description */
+.auth-description {
+    margin: 0 0 1.3rem;
+
+    text-align: center;
+
+    color: #c9cfff;
+
+    font-size: 0.95rem;
+}
+
+
+/* Form field group */
+.auth-form-group {
+    display: flex;
+    flex-direction: column;
+
+    gap: 0.45rem;
+
+    margin-top: 0.7rem;
+}
+
+
+/* Labels */
+.auth-form-group label {
+    color: #e5e7ff;
+
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+
+/* Inputs */
+.auth-form-group input {
+    width: 100%;
+
+    padding: 0.9rem 1rem;
+
+    font-family: "Poppins", sans-serif;
+    font-size: 0.95rem;
+
+    color: #ffffff;
+
+    background: rgba(255, 255, 255, 0.08);
+
+    border: 1px solid rgba(255, 255, 255, 0.15);
+
+    border-radius: 12px;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+/* Placeholder */
+.auth-form-group input::placeholder {
+    color: #adb3d8;
+}
+
+
+/* Input hover */
+.auth-form-group input:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+
+/* Input focus */
+.auth-form-group input:focus {
+    border-color: #9b87ff;
+
+    background: rgba(255, 255, 255, 0.12);
+
+    box-shadow:
+        0 0 0 3px rgba(155, 135, 255, 0.2);
+}
+
+
+/* Login / Register main button */
+.auth-submit-button {
+    display: block;
+
+    width: auto;
+    min-width: 140px;
+
+    margin: 1.2rem auto 0;
+
+    padding: 0.8rem 1.6rem;
+
+    font-family: "Poppins", sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+
+    color: #ffffff;
+
+    background: linear-gradient(135deg,
+            #7c5cff,
+            #d45cc7);
+
+    border: none;
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+/* Button hover */
+.auth-submit-button:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 20px rgba(124, 92, 255, 0.3);
+}
+
+
+/* Error / status message */
+.auth-message {
+    min-height: 0;
+
+    margin-top: 0.7rem;
+    margin-bottom: 0;
+
+    text-align: center;
+
+    color: #ffccd8;
+
+    font-size: 0.9rem;
+}
+
+
+/* Login ↔ Register link */
+.auth-switch {
+    margin-top: 1rem 0 0;
+
+    text-align: center;
+
+    color: #c9cfff;
+
+    font-size: 0.9rem;
+}
+
+
+.auth-switch a {
+    color: #ffffff;
+
+    font-weight: 600;
+
+    text-decoration: none;
+}
+
+
+.auth-switch a:hover {
+    color: #c5b8ff;
+
+    text-decoration: underline;
+}
+
+
+/* X button back to homepage */
+.auth-close {
+    position: absolute;
+
+    top: 1rem;
+    right: 1.2rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 34px;
+    height: 34px;
+
+    color: #d9dcff;
+
+    background: rgba(255, 255, 255, 0.06);
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+
+    border-radius: 50%;
+
+    font-size: 1.4rem;
+    line-height: 1;
+
+    text-decoration: none;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.auth-close:hover {
+    background: rgba(255, 255, 255, 0.13);
+
+    transform: scale(1.05);
+}
+
+
+/* -------------------------------------
+   LOGIN / REGISTER RESPONSIVE DESIGN
+------------------------------------- */
+
+@media (max-width: 500px) {
+
+    .auth-page {
+        padding: 1rem;
+    }
+
+
+    .auth-card {
+        width: 100%;
+        padding: 2rem 1.4rem;
+    }
+
+
+    .auth-card h1 {
+        font-size: 2.1rem;
+    }
+}
 
 /* ------------------------------
    MAIN PAGE
